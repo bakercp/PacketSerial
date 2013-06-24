@@ -27,6 +27,7 @@
 
 #include "COBSSerial.h"
 
+
 #if defined(USBCON)
 COBSSerial::COBSSerial(Serial_& serial, 
                        size_t readBufferLength, 
