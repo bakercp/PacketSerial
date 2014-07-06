@@ -77,7 +77,7 @@ void onPacket(const uint8_t* buffer, size_t size)
   serial.send(tmp, size);
 }
 
-/// \brief A simple
+/// \brief A simple array reversal method.
 void reverse(uint8_t* buffer, size_t size)
 {
   uint8_t tmp;
