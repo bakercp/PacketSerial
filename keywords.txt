@@ -5,31 +5,23 @@
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
-COBSSerial	KEYWORD1
-COBSBuffer	KEYWORD1
+PacketSerial_	KEYWORD1
+PacketSerial	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-update	KEYWORD2
-status	KEYWORD2
-isFilling KEYWORD2
-didOverflow KEYWORD2
-isPacketReady KEYWORD2
-wasPacketMissed KEYWORD2
-isPacketEmpty KEYWORD2
-readPacket KEYWORD2
-writePacket KEYWORKD2
-cobsEncode KEYWORD2
-cobsDecode KEYWORD2
+encode	KEYWORD2
+decode	KEYWORD2
+getEncodedBufferSize KEYWORD2
+send KEYWORD2
+setPacketHandler KEYWORD2
+update KEYWORD2
+begin KEYWORD2
+onPacket KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-BUFFER_FILLING  LITERAL1
-BUFFER_OVERFLOW LITERAL1
-PACKET_READY    LITERAL1
-PACKET_MISSED   LITERAL1
-PACKET_EMPTY    LITERAL1
