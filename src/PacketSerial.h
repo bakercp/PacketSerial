@@ -26,8 +26,8 @@
 
 
 
-#include "Arduino.h"
-#include "COBS.h"
+#include <Arduino.h>
+#include "Encoding/COBS.h"
 
 
 template<typename EncoderType, uint8_t PacketMarker = 0, int BufferSize = 256>
