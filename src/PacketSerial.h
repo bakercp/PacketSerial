@@ -25,7 +25,6 @@
 #pragma once
 
 
-
 #include <Arduino.h>
 #include "Encoding/COBS.h"
 
