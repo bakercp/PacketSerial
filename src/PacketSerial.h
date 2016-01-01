@@ -121,6 +121,7 @@ public:
                                                     size, 
                                                     _encodeBuffer);
 
+            _serial->write(PacketMarker);
             _serial->write(_encodeBuffer, numEncoded);
             _serial->write(PacketMarker);
     }
