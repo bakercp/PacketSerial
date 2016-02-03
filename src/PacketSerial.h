@@ -146,5 +146,6 @@ private:
 };
 
 
-typedef PacketSerial_<COBS> PacketSerial;
-typedef PacketSerial_<SLIP, SLIP::END, 8192> SLIPPacketSerial;
+ typedef PacketSerial_<COBS> PacketSerial;
+ typedef PacketSerial_<COBS> COBSPacketSerial;
+ typedef PacketSerial_<SLIP, SLIP::END> SLIPPacketSerial;
