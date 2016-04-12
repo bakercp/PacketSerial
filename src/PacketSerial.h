@@ -27,6 +27,7 @@
 
 #include <Arduino.h>
 #include "Encoding/COBS.h"
+#include "Encoding/SLIP.h"
 
 
 template<typename EncoderType, uint8_t PacketMarker = 0, int BufferSize = 256>
@@ -145,4 +146,6 @@ private:
 };
 
 
-typedef PacketSerial_<COBS> PacketSerial;
+ typedef PacketSerial_<COBS> PacketSerial;
+ typedef PacketSerial_<COBS> COBSPacketSerial;
+ typedef PacketSerial_<SLIP, SLIP::END> SLIPPacketSerial;
