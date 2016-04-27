@@ -74,6 +74,11 @@ public:
                 _serial = &Serial;
         }
     }
+    
+    void begin(Stream* serial)
+    {
+        _serial = serial;
+    }
 
     void update()
     {
