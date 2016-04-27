@@ -69,7 +69,7 @@ Where:
 | `Serial2`     | 2           |
 | `Serial3`     | 3           |
 
-To use a software serial port you can also use the `begin`method, this time with only a Stream* as argument, i.e.
+To use a software serial port you can also use the `begin` method, this time with only a Stream* as argument, i.e.
 ```c++
     void begin(Stream* serial)
 ```
