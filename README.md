@@ -69,6 +69,22 @@ Where:
 | `Serial2`     | 2           |
 | `Serial3`     | 3           |
 
+To use a software serial port you can also use the `begin` method, this time with only a Stream* as argument, i.e.
+```c++
+    void begin(Stream* serial)
+```
+
+Usage:
+```c++
+    PacketSerial packet_serial;
+    SoftwareSerial software_serial(10, 11);
+    
+    // in this case the serial port has to be initialized already when passing it to PacketSerial!
+    software_serial.begin(38400);
+    packet_serial.begin(&software_serial);
+```
+
+
 To receive decoded packets automatically, the user should register a packet callback.  The packet callback should be placed in your main Arduino Sketch and should have a method that looks like this signatur that looks like:
 
 ```c++
