@@ -49,7 +49,7 @@ public:
 
     void begin(unsigned long baud, size_t port = 0)
     {
-        switch(port) 
+        switch(port)
         {
         #if defined(UBRR1H)
             case 1:
@@ -74,7 +74,7 @@ public:
                 _serial = &Serial;
         }
     }
-    
+
     void begin(Stream* serial)
     {
         _serial = serial;
@@ -90,12 +90,12 @@ public:
 
             if (data == PacketMarker)
             {
-                if (_onPacketFunction) 
+                if (_onPacketFunction)
                 {
                     uint8_t _decodeBuffer[_recieveBufferIndex];
 
-                    size_t numDecoded = EncoderType::decode(_recieveBuffer, 
-                                                            _recieveBufferIndex, 
+                    size_t numDecoded = EncoderType::decode(_recieveBuffer,
+                                                            _recieveBufferIndex,
                                                             _decodeBuffer);
 
                     _onPacketFunction(_decodeBuffer, numDecoded);
@@ -123,19 +123,19 @@ public:
 
             uint8_t _encodeBuffer[EncoderType::getEncodedBufferSize(size)];
 
-            size_t numEncoded = EncoderType::encode(buffer, 
-                                                    size, 
+            size_t numEncoded = EncoderType::encode(buffer,
+                                                    size,
                                                     _encodeBuffer);
 
             _serial->write(_encodeBuffer, numEncoded);
-            _serial->write(PacketMarker);
+            //_serial->write(PacketMarker);
     }
 
     void setPacketHandler(PacketHandlerFunction onPacketFunction)
     {
         _onPacketFunction = onPacketFunction;
     }
-    
+
 
 private:
     PacketSerial_(const PacketSerial_&);
@@ -143,9 +143,9 @@ private:
 
     uint8_t _recieveBuffer[BufferSize];
     size_t _recieveBufferIndex;
-    
+
     Stream* _serial;
-    
+
     PacketHandlerFunction _onPacketFunction;
 
 };

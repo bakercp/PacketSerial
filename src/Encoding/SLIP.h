@@ -59,7 +59,7 @@ public:
         size_t write_index = 0;
 
         // double-ENDed, flush any data that may have accumulated due to line noise
-        encoded[write_index++] = END;
+        //encoded[write_index++] = END;
 
         while (read_index < size)
         {
