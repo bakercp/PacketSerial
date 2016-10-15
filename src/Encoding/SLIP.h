@@ -50,6 +50,12 @@
 class SLIP
 {
 public:
+    /// \brief Encode the given buffer.
+    /// \param buffer A pointer to the buffer to be encoded.
+    /// \param size The size of the buffer pointed to by \p buffer.
+    /// \param encoded A pointer to the target encoded buffer.  This buffer must have sufficient memory allocated.
+    /// \returns The number of bytes written to the encoded \p buffer.
+    /// \warning The encoded buffer must have at least getEncodedBufferSize() allocated.
     static size_t encode(const uint8_t* buffer, size_t size, uint8_t* encoded)
     {
         if (size == 0)
@@ -86,6 +92,12 @@ public:
         return write_index;
     }
 
+    /// \brief Decode a SLIP-encoded buffer.
+    /// \param source The SLIP-encoded buffer to decode.
+    /// \param size The size of the SLIP-encoded buffer.
+    /// \param destination The target buffer for the decoded bytes.
+    /// \returns The number of bytes in the decoded buffer.
+    /// \warning destination must have a minimum capacity of size.
     static size_t decode(const uint8_t* buffer, size_t size, uint8_t* decoded)
     {
         if (size == 0)
@@ -140,6 +152,7 @@ public:
         return sourceSize * 2 + 2;
     }
 
+    /// \brief Key constants used in the SLIP protocol.
     enum
     {
         END = 0300,

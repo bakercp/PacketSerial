@@ -100,8 +100,7 @@ public:
     /// \param size The size of the COBS-encoded buffer.
     /// \param destination The target buffer for the decoded bytes.
     /// \returns The number of bytes in the decoded buffer.
-    /// \warning destination must have a minimum capacity of
-    ///     size
+    /// \warning destination must have a minimum capacity of size.
     static size_t decode(const uint8_t* source, size_t size, uint8_t* destination)
     {
         size_t read_index  = 0;
