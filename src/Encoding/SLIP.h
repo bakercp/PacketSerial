@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2010-2014 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2010-2016 Christopher Baker <http://christopherbaker.net>
 // 2016 Antoine Villeret added Christopher's ofx/IO/SLIPEncoding.h here
 //
 // see : https://github.com/bakercp/ofxIO/blob/master/libs/ofxIO/include/ofx/IO/SLIPEncoding.h
