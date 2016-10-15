@@ -50,7 +50,7 @@
 /// \sa http://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing
 /// \sa https://github.com/jacquesf/COBS-Consistent-Overhead-Byte-Stuffing
 /// \sa http://www.jacquesf.com/2011/03/consistent-overhead-byte-stuffing/
-class COBS 
+class COBS
 {
 public:
     /// \brief Encode a byte buffer with the COBS encoder.
@@ -67,9 +67,9 @@ public:
         size_t code_index  = 0;
         uint8_t code       = 1;
 
-        while(read_index < size)
+        while (read_index < size)
         {
-            if(source[read_index] == 0)
+            if (source[read_index] == 0)
             {
                 destination[code_index] = code;
                 code = 1;
@@ -81,7 +81,7 @@ public:
                 destination[write_index++] = source[read_index++];
                 code++;
 
-                if(code == 0xFF)
+                if (code == 0xFF)
                 {
                     destination[code_index] = code;
                     code = 1;
@@ -108,28 +108,28 @@ public:
         uint8_t code;
         uint8_t i;
 
-        while(read_index < size)
+        while (read_index < size)
         {
             code = source[read_index];
 
-            if(read_index + code > size && code != 1)
+            if (read_index + code > size && code != 1)
             {
                 return 0;
             }
 
             read_index++;
 
-            for(i = 1; i < code; i++)
+            for (i = 1; i < code; i++)
             {
                 destination[write_index++] = source[read_index++];
             }
 
-            if(code != 0xFF && read_index != size)
+            if (code != 0xFF && read_index != size)
             {
                 destination[write_index++] = '\0';
             }
         }
-        
+
         return write_index;
     }
 

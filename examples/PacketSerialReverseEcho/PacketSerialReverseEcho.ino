@@ -29,7 +29,7 @@
 // The PacketSerial object.
 // It cleverly wraps one of the Serial objects.
 // While it is still possible to use the Serial object
-// directly, it is recommended that the user let the 
+// directly, it is recommended that the user let the
 // PacketSerial object manage all serial communication.
 // Thus the user should not call Serial.write(), etc.
 // Additionally the user should not use the serialEvent()
@@ -48,14 +48,14 @@ void setup()
 void loop()
 {
   // Do other things here.
-  
+
   // The update() method attempts to read in
   // any incoming serial data and emits packets via
-  // the user's onPacket(const uint8_t* buffer, size_t size) 
-  // method registered with the setPacketHandler() method.  
+  // the user's onPacket(const uint8_t* buffer, size_t size)
+  // method registered with the setPacketHandler() method.
   //
   // The update() method should be called at the end of the loop().
-  serial.update(); 
+  serial.update();
 }
 
 // This is our packet callback.
@@ -63,14 +63,14 @@ void loop()
 void onPacket(const uint8_t* buffer, size_t size)
 {
   // Make a temporary buffer.
-  uint8_t tmp[size]; 
-  
+  uint8_t tmp[size];
+
   // Copy the packet into our temporary buffer.
-  memcpy(tmp, buffer, size); 
-  
+  memcpy(tmp, buffer, size);
+
   // Reverse our temporaray buffer.
   reverse(tmp, size);
-  
+
   // Send the reversed buffer back.
   // The send() method will encode the buffer
   // as a packet, set packet markers, etc.
@@ -81,7 +81,7 @@ void onPacket(const uint8_t* buffer, size_t size)
 void reverse(uint8_t* buffer, size_t size)
 {
   uint8_t tmp;
-  
+
   for (int i=0; i < size / 2; i++)
   {
     tmp = buffer[i];

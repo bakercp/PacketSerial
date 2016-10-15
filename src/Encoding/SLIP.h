@@ -36,7 +36,6 @@
 #include "Arduino.h"
 
 
-
 /// \brief A Serial Line IP (SLIP) Encoder.
 ///
 /// Serial Line IP (SLIP) is a packet framing protocol: SLIP defines a
