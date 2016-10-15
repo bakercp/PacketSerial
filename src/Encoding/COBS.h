@@ -103,6 +103,9 @@ public:
     /// \warning destination must have a minimum capacity of size.
     static size_t decode(const uint8_t* source, size_t size, uint8_t* destination)
     {
+        if (size == 0)
+            return 0;
+
         size_t read_index  = 0;
         size_t write_index = 0;
         uint8_t code;
