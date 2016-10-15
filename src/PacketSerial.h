@@ -128,7 +128,7 @@ public:
                                                     _encodeBuffer);
 
             _serial->write(_encodeBuffer, numEncoded);
-            _serial->write(PacketMarker);
+            //_serial->write(PacketMarker);
     }
 
     void setPacketHandler(PacketHandlerFunction onPacketFunction)
