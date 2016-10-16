@@ -121,14 +121,14 @@ public:
     {
         if(_serial == 0 || buffer == 0 || size == 0) return;
 
-            uint8_t _encodeBuffer[EncoderType::getEncodedBufferSize(size)];
+        uint8_t _encodeBuffer[EncoderType::getEncodedBufferSize(size)];
 
-            size_t numEncoded = EncoderType::encode(buffer,
-                                                    size,
-                                                    _encodeBuffer);
+        size_t numEncoded = EncoderType::encode(buffer,
+                                                size,
+                                                _encodeBuffer);
 
-            _serial->write(_encodeBuffer, numEncoded);
-            _serial->write(PacketMarker);
+        _serial->write(_encodeBuffer, numEncoded);
+        _serial->write(PacketMarker);
     }
 
     void setPacketHandler(PacketHandlerFunction onPacketFunction)
