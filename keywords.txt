@@ -7,6 +7,11 @@
 #######################################
 PacketSerial_	KEYWORD1
 PacketSerial	KEYWORD1
+COBSPacketSerial	KEYWORD1
+SLIPPacketSerial	KEYWORD1
+
+SLIP	KEYWORD1
+COBS	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -14,14 +19,18 @@ PacketSerial	KEYWORD1
 
 encode	KEYWORD2
 decode	KEYWORD2
-getEncodedBufferSize KEYWORD2
-send KEYWORD2
-setPacketHandler KEYWORD2
-update KEYWORD2
-begin KEYWORD2
-onPacket KEYWORD2
+getEncodedBufferSize	KEYWORD2
+send	KEYWORD2
+setPacketHandler	KEYWORD2
+update	KEYWORD2
+begin	KEYWORD2
+onPacket	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
+END	LITERAL1
+ESC	LITERAL1
+ESC_END	LITERAL1
+ESC_ESC	LITERAL1
