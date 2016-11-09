@@ -35,6 +35,7 @@ class PacketSerial_
 {
 public:
     typedef void (*PacketHandlerFunction)(const uint8_t* buffer, size_t size);
+    typedef void (*PacketHandlerFunctionWithBaton)(const uint8_t* buffer, size_t size, void* baton);
 
     PacketSerial_():
         _recieveBufferIndex(0),
@@ -98,7 +99,14 @@ public:
                                                             _recieveBufferIndex,
                                                             _decodeBuffer);
 
-                    _onPacketFunction(_decodeBuffer, numDecoded);
+                    if (_onPacket.hasBaton)
+                    {
+                        _onPacket.batonFunction(_decodeBuffer, numDecoded, _onPacket.baton);
+                    }
+                    else
+                    {
+                        _onPacket.function(_decodeBuffer, numDecoded);
+                    }   
                 }
 
                 _recieveBufferIndex = 0;
@@ -133,7 +141,15 @@ public:
 
     void setPacketHandler(PacketHandlerFunction onPacketFunction)
     {
-        _onPacketFunction = onPacketFunction;
+        _onPacket.hasBaton = false;
+        _onPacket.function = onPacketFunction;
+    }
+
+    void setPacketHandler(PacketHandlerFunctionWithBaton onPacketFunction, void* baton)
+    {
+        _onPacket.hasBaton = true;
+        _onPacket.baton = baton;
+        _onPacket.batonFunction = onPacketFunction;
     }
 
 
@@ -146,8 +162,14 @@ private:
 
     Stream* _serial;
 
-    PacketHandlerFunction _onPacketFunction;
-
+    struct {
+        bool hasBaton;
+        void* baton;
+        union {
+            PacketHandlerFunctionWithBaton function;
+            PacketHandlerFunction batonFunction;
+        }
+    } _onPacket;
 };
 
 
