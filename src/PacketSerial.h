@@ -40,7 +40,7 @@ public:
     PacketSerial_():
         _recieveBufferIndex(0),
         _serial(0),
-        _onPacketFunction(0)
+        _onPacket {0, 0, 0}
     {
     }
 
@@ -91,7 +91,7 @@ public:
 
             if (data == PacketMarker)
             {
-                if (_onPacketFunction)
+                if ((_onPacket.hasBaton &&  _onPacket.batonFunction) || (!_onPacket.hasBaton &&   _onPacket.function))
                 {
                     uint8_t _decodeBuffer[_recieveBufferIndex];
 
@@ -106,7 +106,7 @@ public:
                     else
                     {
                         _onPacket.function(_decodeBuffer, numDecoded);
-                    }   
+                    }
                 }
 
                 _recieveBufferIndex = 0;
@@ -166,9 +166,9 @@ private:
         bool hasBaton;
         void* baton;
         union {
-            PacketHandlerFunctionWithBaton function;
-            PacketHandlerFunction batonFunction;
-        }
+            PacketHandlerFunction function;
+            PacketHandlerFunctionWithBaton batonFunction;
+        };
     } _onPacket;
 };
 
