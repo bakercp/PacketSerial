@@ -204,3 +204,7 @@ void reverse(uint8_t* buffer, size_t size)
 - openFrameworks
     - https://github.com/bakercp/ofxSerial
     - See the `ofx::IO::PacketSerial` object which is directly compatible with this library. 
+
+
+## License
+See [LICENSE.md](LICENSE.md)
