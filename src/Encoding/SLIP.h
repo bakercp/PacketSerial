@@ -86,8 +86,6 @@ public:
             }
         }
 
-        encoded[write_index++] = END;
-
         return write_index;
     }
 
