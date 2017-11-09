@@ -93,6 +93,8 @@ mySoftwareSerial.begin(38400);
 myPacketSerial.begin(&mySoftwareSerial);
 ```
 
+On boards with multiple serial ports, this strategy can also be used to set up two Serial streams, one for packets and one for debug ASCII (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
+
 To receive decoded packets, the user should register a packet callback. The packet callback should be placed in your main Arduino Sketch and should have a method that looks like this:
 
 ```c++
