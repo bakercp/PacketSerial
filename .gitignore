@@ -1,5 +1,8 @@
 *.mode1v3
 
+docs/html
+docs/tagfile.xml
+
 # xcode
 *.pbxuser
 *.perspectivev3
