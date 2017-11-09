@@ -80,10 +80,10 @@ Where:
 
 Alternatively, to use a software serial port or other pre-configured network stream you can use an alternate `begin` method, this time with only a `Stream*` as argument, e.g.:
 ```c++
-    void begin(Stream* serial)
+void begin(Stream* serial)
 ```
 
-Usage:
+To set this up, you might do the following:
 ```c++
 PacketSerial myPacketSerial;
 SoftwareSerial mySoftwareSerial(10, 11);
