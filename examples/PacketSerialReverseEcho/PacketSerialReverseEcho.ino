@@ -64,7 +64,7 @@ void reverse(uint8_t* buffer, size_t size)
 {
   uint8_t tmp;
 
-  for (int i=0; i < size / 2; i++)
+  for (size_t i=0; i < size / 2; i++)
   {
     tmp = buffer[i];
     buffer[i] = buffer[size-i-1];
