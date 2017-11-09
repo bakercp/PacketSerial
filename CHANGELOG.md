@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Updated README.md, fixed errors, spelling, byte counts, etc.
+- Updated documentation / comments in documentation for clarity.
 
 ### Removed
 - Deprecated the `void begin(unsigned long speed, size_t port)` method because it could be confused with the standard `Serial.begin(unsigned long speed, uint8_t config)` method.

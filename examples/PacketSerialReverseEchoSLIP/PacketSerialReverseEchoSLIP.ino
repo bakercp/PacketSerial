@@ -8,58 +8,72 @@
 #include <PacketSerial.h>
 
 
-// The PacketSerial object.
-// It cleverly wraps one of the Serial objects.
-// While it is still possible to use the Serial object
-// directly, it is recommended that the user let the
-// PacketSerial object manage all serial communication.
-// Thus the user should not call Serial.write(), etc.
-// Additionally the user should not use the serialEvent()
-// callbacks.
-SLIPPacketSerial serial;
+// By default, PacketSerial automatically wraps the built-in `Serial` object.
+// While it is still possible to use the Serial object directly, it is
+// recommended that the user let the PacketSerial object manage all serial
+// communication. Thus the user should not call Serial.write(), Serial.print(),
+// etc. Additionally the user should not use the serialEvent() framework.
+//
+// By default, SLIPPacketSerial uses SLIP encoding and has a 256 byte receive
+// buffer. This can be adjusted by the user by replacing `SLIPPacketSerial`
+// with a variation of the `PacketSerial_<SLIP, SLIP::END, BufferSize>` template
+// found in PacketSerial.h.
+SLIPPacketSerial myPacketSerial;
 
 
 void setup()
 {
-  // We must specify a packet handler method so that
-  serial.setPacketHandler(&onPacket);
-  serial.begin(115200);
+  // We begin communication with our PacketSerial object by setting the
+  // communication speed in bits / second (baud).
+  myPacketSerial.begin(115200);
+
+  // If we want to receive packets, we must specify a packet handler function.
+  // The packet handler is a custom function with a signature like the onPacket
+  // function below.
+  myPacketSerial.setPacketHandler(&onPacket);
 }
 
 
 void loop()
 {
-  // Do other things here.
+  // Do your program-specific loop() work here as usual.
 
-  // The update() method attempts to read in
-  // any incoming serial data and emits packets via
-  // the user's onPacket(const uint8_t* buffer, size_t size)
-  // method registered with the setPacketHandler() method.
+  // The PacketSerial::update() method attempts to read in any incoming serial
+  // data and emits received and decoded packets via the packet handler
+  // function specified by the user in the void setup() function.
   //
-  // The update() method should be called at the end of the loop().
-  serial.update();
+  // The PacketSerial::update() method should be called once per loop(). Failure
+  // to call the PacketSerial::update() frequently enough may result in buffer
+  // serial overflows.
+  myPacketSerial.update();
 }
 
-// This is our packet callback.
-// The buffer is delivered already decoded.
+// This is our handler callback function.
+// When an encoded packet is received and decoded, it will be delivered here.
+// The `buffer` is a pointer to the decoded byte array. `size` is the number of
+// bytes in the `buffer`.
 void onPacket(const uint8_t* buffer, size_t size)
 {
+  // In this example, we will simply reverse the contents of the array and send
+  // it back to the sender.
+
   // Make a temporary buffer.
-  uint8_t tmp[size];
+  uint8_t tempBuffer[size];
 
   // Copy the packet into our temporary buffer.
-  memcpy(tmp, buffer, size);
+  memcpy(tempBuffer, buffer, size);
 
   // Reverse our temporaray buffer.
-  reverse(tmp, size);
+  reverse(tempBuffer, size);
 
-  // Send the reversed buffer back.
-  // The send() method will encode the buffer
-  // as a packet, set packet markers, etc.
-  serial.send(tmp, size);
+  // Send the reversed buffer back to the sender. The send() method will encode
+  // the whole buffer as as single packet, set packet markers, etc.
+  // The `tempBuffer` is a pointer to the `tempBuffer` array and `size` is the
+  // number of bytes to send in the `tempBuffer`.
+  myPacketSerial.send(tempBuffer, size);
 }
 
-/// \brief A simple array reversal method.
+// This function takes a byte buffer and reverses it.
 void reverse(uint8_t* buffer, size_t size)
 {
   uint8_t tmp;
