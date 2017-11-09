@@ -25,7 +25,7 @@ The receiver must then collect the 3 ASCII characters `{ '2', '5', '5' }`, comb
 
 One way to send a _packet_ of data without this library is to send each byte separated by a comma or space and terminate the sequence with a new line character. Thus, to send the value `255` and the value `10`, one might call:
 
-```
+```c++
 Serial.print(255);
 Serial.print(',');
 Serial.print(10);
@@ -66,7 +66,7 @@ The `PacketSerial` class wraps the standard Arduino `Serial` class to automatica
 For Arduino boards with more than one serial port, `PacketSerial` the desired serial port can be specified with the `begin` method, i.e.
 
 ```c++
-    void begin(unsigned long speed, uint8_t config, size_t port = 0)
+void begin(unsigned long speed, uint8_t config, size_t port = 0)
 ```
 
 Where:
@@ -85,12 +85,12 @@ Alternatively, to use a software serial port or other pre-configured network str
 
 Usage:
 ```c++
-    PacketSerial myPacketSerial;
-    SoftwareSerial mySoftwareSerial(10, 11);
+PacketSerial myPacketSerial;
+SoftwareSerial mySoftwareSerial(10, 11);
 
-    // In this case the serial port has to be initialized before passing it to PacketSerial.
-    mySoftwareSerial.begin(38400);
-    myPacketSerial.begin(&mySoftwareSerial);
+// In this case the serial port has to be initialized before passing it to PacketSerial.
+mySoftwareSerial.begin(38400);
+myPacketSerial.begin(&mySoftwareSerial);
 ```
 
 To receive decoded packets, the user should register a packet callback. The packet callback should be placed in your main Arduino Sketch and should have a method that looks like this:
