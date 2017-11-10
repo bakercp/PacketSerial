@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
 ### Removed
 - Remove the `void begin(unsigned long speed, size_t port)` function.
 - Remove the `void begin(Stream* stream)` function.
+
+### Added
+- Lambda function packetHandler examples and documentation.
 
 ## [1.2.0] 2017-11-09
 ### Added
@@ -16,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 - Deprecated all but one basic `void begin(Stream* stream)` function. Use `void setStream(Stream* stream)` instead.
-- Reverted void `PacketSerial_::begin(unsigned long speed, uint8_t config, size_t port)`. 
+- Reverted void `PacketSerial_::begin(unsigned long speed, uint8_t config, size_t port)`.
 
 ### Changed
 - Updated README.md, fixed errors, spelling and updated examples.
