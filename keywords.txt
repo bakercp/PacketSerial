@@ -24,7 +24,8 @@ send	KEYWORD2
 setPacketHandler	KEYWORD2
 update	KEYWORD2
 begin	KEYWORD2
-onPacket	KEYWORD2
+setStream	KEYWORD2
+onPacketReceived	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
