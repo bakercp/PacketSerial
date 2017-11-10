@@ -6,7 +6,18 @@
 
 
 #include <PacketSerial.h>
+#include <SoftwareSerial.h>
 
+// Instances of this class can recieve data packets when registered.
+class MyClass
+{
+public:
+    void processPacketFromSender(const PacketSerial& sender, const uint8_t* buffer, size_t size)
+    {
+        // Just send the buffer back to the sender.
+        sender.send(buffer, size);
+    }
+};
 
 // By default, PacketSerial automatically wraps the built-in `Serial` object.
 // While it is still possible to use the Serial object directly, it is
@@ -21,8 +32,11 @@
 PacketSerial myPacketSerial;
 
 // An additional PacketSerial instance.
+SoftwareSerial mySoftwareSerial(10, 11);
 PacketSerial myOtherPacketSerial;
 
+// An instance of our custom class.
+MyClass myClassInstance;
 
 void setup()
 {
@@ -36,10 +50,17 @@ void setup()
   myPacketSerial.setPacketHandler(&onPacketReceived);
 
   // Set up a scond custom Serial connection on Serial1.
-  Serial1.begin(9600);
-  myOtherPacketSerial.setStream(&Serial1);
-  myOtherPacketSerial.setPacketHandler(&onPacketReceived);
+  mySoftwareSerial.begin(9600);
+  myOtherPacketSerial.setStream(&mySoftwareSerial);
 
+  // Here we set the packet handler to be a member of the given instance of
+  // MyClass using a lambda function. Static variables (e.g. myClassInstance)
+  // don't need to be captured. Additionally the member function of MyClass
+  // that processes the packet isn't required to match the packet handler
+  // function signature.
+  myOtherPacketSerial.setPacketHandler([](const uint8_t* buffer, size_t size) {
+       myClassInstance.processPacketFromSender(myOtherPacketSerial, buffer, size);
+  });
 }
 
 

@@ -187,6 +187,33 @@ void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size)
 
 ```
 
+Finally, it is also possible to set arbitrary packet handlers that point to member functions of a given class instance using lambda functions. For example:
+
+```c++
+// Instances of this class can recieve data packets when registered.
+class MyClass
+{
+public:
+    void processPacketFromSender(const PacketSerial& sender, const uint8_t* buffer, size_t size)
+    {
+        // Just send the buffer back to the sender.
+        sender.send(buffer, size);
+    }
+};
+
+
+MyClass myClassInstance;
+PacketSerial myPacketSerial;
+
+void setup()
+{
+    myPacketSerial.begin(115200);
+    myPacketSerial.setPacketHandler([](const uint8_t* buffer, size_t size) {
+         myClassInstance.processPacketFromSender(myPacketSerial, buffer, size);
+    });
+}
+```
+
 ### Sending Packets
 
 To send packets call the `send()` method. The send method will take a packet (an array of bytes), encode it, transmit it and send the packet boundary marker. To send the values `255` and `10`, one might do the following:
