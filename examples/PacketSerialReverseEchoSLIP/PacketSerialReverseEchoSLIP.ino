@@ -28,9 +28,9 @@ void setup()
   myPacketSerial.begin(115200);
 
   // If we want to receive packets, we must specify a packet handler function.
-  // The packet handler is a custom function with a signature like the onPacket
-  // function below.
-  myPacketSerial.setPacketHandler(&onPacket);
+  // The packet handler is a custom function with a signature like the
+  // onPacketReceived function below.
+  myPacketSerial.setPacketHandler(&onPacketReceived);
 }
 
 
@@ -52,7 +52,7 @@ void loop()
 // When an encoded packet is received and decoded, it will be delivered here.
 // The `buffer` is a pointer to the decoded byte array. `size` is the number of
 // bytes in the `buffer`.
-void onPacket(const uint8_t* buffer, size_t size)
+void onPacketReceived(const uint8_t* buffer, size_t size)
 {
   // In this example, we will simply reverse the contents of the array and send
   // it back to the sender.
@@ -78,11 +78,10 @@ void reverse(uint8_t* buffer, size_t size)
 {
   uint8_t tmp;
 
-  for (size_t i=0; i < size / 2; i++)
+  for (size_t i = 0; i < size / 2; i++)
   {
     tmp = buffer[i];
-    buffer[i] = buffer[size-i-1];
-    buffer[size-i-1] = tmp;
+    buffer[i] = buffer[size - i - 1];
+    buffer[size - i - 1] = tmp;
   }
 }
-

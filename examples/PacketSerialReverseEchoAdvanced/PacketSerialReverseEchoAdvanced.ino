@@ -20,6 +20,9 @@
 // PacketSerial.h.
 PacketSerial myPacketSerial;
 
+// An additional PacketSerial instance.
+PacketSerial myOtherPacketSerial;
+
 
 void setup()
 {
@@ -31,6 +34,12 @@ void setup()
   // The packet handler is a custom function with a signature like the
   // onPacketReceived function below.
   myPacketSerial.setPacketHandler(&onPacketReceived);
+
+  // Set up a scond custom Serial connection on Serial1.
+  Serial1.begin(9600);
+  myOtherPacketSerial.setStream(&Serial1);
+  myOtherPacketSerial.setPacketHandler(&onPacketReceived);
+
 }
 
 
@@ -50,27 +59,35 @@ void loop()
 
 // This is our handler callback function.
 // When an encoded packet is received and decoded, it will be delivered here.
-// The `buffer` is a pointer to the decoded byte array. `size` is the number of
-// bytes in the `buffer`.
-void onPacketReceived(const uint8_t* buffer, size_t size)
+// The sender is a pointer to the sending PacketSerial instance. The `buffer` is
+// a pointer to the decoded byte array. `size` is the number of bytes in the
+// `buffer`.
+void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size)
 {
-  // In this example, we will simply reverse the contents of the array and send
-  // it back to the sender.
+  if (sender == &myPacketSerial)
+  {
+    // In this example, we will simply reverse the contents of the array and send
+    // it back to the sender.
+    // Make a temporary buffer.
+    uint8_t tempBuffer[size];
 
-  // Make a temporary buffer.
-  uint8_t tempBuffer[size];
+    // Copy the packet into our temporary buffer.
+    memcpy(tempBuffer, buffer, size);
 
-  // Copy the packet into our temporary buffer.
-  memcpy(tempBuffer, buffer, size);
+    // Reverse our temporaray buffer.
+    reverse(tempBuffer, size);
 
-  // Reverse our temporaray buffer.
-  reverse(tempBuffer, size);
-
-  // Send the reversed buffer back to the sender. The send() method will encode
-  // the whole buffer as as single packet, set packet markers, etc.
-  // The `tempBuffer` is a pointer to the `tempBuffer` array and `size` is the
-  // number of bytes to send in the `tempBuffer`.
-  myPacketSerial.send(tempBuffer, size);
+    // Send the reversed buffer back to the sender. The send() method will encode
+    // the whole buffer as as single packet, set packet markers, etc.
+    // The `tempBuffer` is a pointer to the `tempBuffer` array and `size` is the
+    // number of bytes to send in the `tempBuffer`.
+    myPacketSerial.send(tempBuffer, size);
+  }
+  else if (sender == &myOtherPacketSerial)
+  {
+    // Just send it back without reversing it.
+    myOtherPacketSerial.send(buffer, size);
+  }
 }
 
 // This function takes a byte buffer and reverses it.
