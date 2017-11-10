@@ -13,10 +13,10 @@
 #include "Encoding/SLIP.h"
 
 
-/// \brief A template class defining a packet-based Serial device.
+/// \brief A template class enabling packet-based Serial communication.
 ///
 /// Typically one of the typedefined versions are used, for example,
-/// COBSPacketSerial or SLIPPacketSerial.
+/// `COBSPacketSerial` or `SLIPPacketSerial`.
 ///
 /// The template parameters allow the user to define their own packet encoder /
 /// decoder, custom packet marker and receive buffer size.
@@ -32,17 +32,29 @@ public:
     ///
     /// The packet handler method usually has the form:
     ///
-    ///     void onPacket(const uint8_t* buffer, size_t size)
+    ///     void onPacketReceived(const uint8_t* buffer, size_t size);
     ///
     /// where buffer is a pointer to the incoming buffer array, and size is the
     /// number of bytes in the incoming buffer.
     typedef void (*PacketHandlerFunction)(const uint8_t* buffer, size_t size);
 
+    /// \brief A typedef describing the packet handler method.
+    ///
+    /// The packet handler method usually has the form:
+    ///
+    ///     void onPacketReceived(void* sender, const uint8_t* buffer, size_t size);
+    ///
+    /// where sender is a pointer to the PacketSerial_ instance that recieved
+    /// the buffer,  buffer is a pointer to the incoming buffer array, and size
+    /// is the number of bytes in the incoming buffer.
+    typedef void (*PacketHandlerFunctionWithSender)(const void* sender, const uint8_t* buffer, size_t size);
+
     /// \brief Construct a default PacketSerial_ device.
     PacketSerial_():
         _receiveBufferIndex(0),
         _stream(nullptr),
-        _onPacketFunction(nullptr)
+        _onPacketFunction(nullptr),
+        _onPacketFunctionWithSender(nullptr)
     {
     }
 
@@ -51,71 +63,98 @@ public:
     {
     }
 
-    /// \brief Begin a serial connection with the given speed.
+    /// \brief Begin a default serial connection with the given speed.
     ///
-    /// The default Serial Port `Serial` and default config `SERIAL_8N1` will be
-    /// used.
+    /// The default Serial port `Serial` and default config `SERIAL_8N1` will be
+    /// used. For example:
+    ///
+    ///     PacketSerial myPacketSerial;
+    ///
+    ///     void setup()
+    ///     {
+    ///         myPacketSerial.begin(9600);
+    ///     }
+    ///
+    /// This is a convenience method. For more complex Serial port
+    /// configurations, use the `setStream()` function to set an arbitrary
+    /// Arduino Stream.
     ///
     /// \param speed The serial data transmission speed in bits / second (baud).
     /// \sa https://www.arduino.cc/en/Serial/Begin
     void begin(unsigned long speed)
     {
-        begin(speed, SERIAL_8N1, 0);
+        Serial.begin(speed);
+        setStream(&Serial);
     }
 
-    /// \brief Deprecated begin() method.
+    /// \brief Deprecated. Use setStream() to configure a non-default port.
     /// \param speed The serial data transmission speed in bits / second (baud).
     /// \param port The Serial port number (e.g. 0 is Serial, 1 is Serial1).
-    /// \deprecated Use the alternative begin().
+    /// \deprecated Use setStream() to configure a non-default port.
     void begin(unsigned long speed, size_t port) __attribute__ ((deprecated))
-    {
-        begin(port, SERIAL_8N1, port);
-    }
-
-    /// \brief Begin a serial connection with the given speed, config and port.
-    /// \param speed The serial data transmission speed in bits / second (baud).
-    /// \param config The data, parity, and stop bits configuration.
-    /// \param port The Serial port number (e.g. 0 is Serial, 1 is Serial1).
-    /// \sa https://www.arduino.cc/en/Serial/Begin
-    void begin(unsigned long speed, uint8_t config, size_t port)
     {
         switch(port)
         {
         #if defined(UBRR1H)
             case 1:
-                Serial1.begin(speed, config);
-                _stream = &Serial1;
+                Serial1.begin(speed);
+                setStream(&Serial1);
                 break;
         #endif
         #if defined(UBRR2H)
             case 2:
-                Serial2.begin(speed, config);
-                _stream = &Serial2;
+                Serial2.begin(speed);
+                setStream(&Serial2);
                 break;
         #endif
         #if defined(UBRR3H)
             case 3:
-                Serial3.begin(speed, config);
-                _stream = &Serial3;
+                Serial3.begin(speed);
+                setStream(&Serial3);
                 break;
         #endif
             default:
-                Serial.begin(speed, config);
-                _stream = &Serial;
+                begin(speed);
         }
     }
 
-    /// \brief Begin a serial connection with the given Stream.
+    /// \brief Deprecated. Use setStream() to configure a non-default port.
+    /// \param stream A pointer to an Arduino `Stream`.
+    /// \deprecated Use setStream() to configure a non-default port.
+    void begin(Stream* stream) __attribute__ ((deprecated))
+    {
+        _stream = stream;
+    }
+
+    /// \brief Attach PacketSerial to an existing Arduino `Stream`.
     ///
-    /// This Stream could be a standard Serial object e.g.:
+    /// This `Stream` could be a standard `Serial` `Stream` with a non-default
+    /// configuration such as:
     ///
-    ///     myPacketSerial.begin(&Serial);
+    ///     PacketSerial myPacketSerial;
     ///
-    /// or can be any `Stream` object, including a network or other connection
-    /// that implements the `Stream` interface.
+    ///     void setup()
+    ///     {
+    ///         Serial.begin(300, SERIAL_7N1);
+    ///         myPacketSerial.setStream(&Serial);
+    ///     }
+    ///
+    /// Or it might be a `SoftwareSerial` `Stream` such as:
+    ///
+    ///     PacketSerial myPacketSerial;
+    ///     SoftwareSerial mySoftwareSerial(10, 11);
+    ///
+    ///     void setup()
+    ///     {
+    ///         mySoftwareSerial.begin(38400);
+    ///         myPacketSerial.setStream(&mySoftwareSerial);
+    ///     }
+    ///
+    /// Any class that implements the `Stream` interface should work, which
+    /// includes some network objects.
     ///
     /// \param stream A pointer to an Arduino `Stream`.
-    void begin(Stream* stream)
+    void setStream(Stream* stream)
     {
         _stream = stream;
     }
@@ -141,7 +180,7 @@ public:
 
             if (data == PacketMarker)
             {
-                if (_onPacketFunction)
+                if (_onPacketFunction || _onPacketFunctionWithSender)
                 {
                     uint8_t _decodeBuffer[_receiveBufferIndex];
 
@@ -149,7 +188,14 @@ public:
                                                             _receiveBufferIndex,
                                                             _decodeBuffer);
 
-                    _onPacketFunction(_decodeBuffer, numDecoded);
+                    if (_onPacketFunction)
+                    {
+                        _onPacketFunction(_decodeBuffer, numDecoded);
+                    }
+                    else if (_onPacketFunctionWithSender)
+                    {
+                        _onPacketFunctionWithSender(this, _decodeBuffer, numDecoded);
+                    }
                 }
 
                 _receiveBufferIndex = 0;
@@ -173,6 +219,12 @@ public:
     /// This function will encode and send an arbitrary packet of data. After
     /// sending, it will send the specified `PacketMarker` defined in the
     /// template parameters.
+    ///
+    ///     // Make an array.
+    ///     uint8_t myPacket[2] = { 255, 10 };
+    ///
+    ///     // Send the array.
+    ///     myPacketSerial.send(myPacket, 2);
     ///
     /// \param buffer A pointer to a data buffer.
     /// \param size The number of bytes in the data buffer.
@@ -198,16 +250,57 @@ public:
     ///
     /// The packet handler method usually has the form:
     ///
-    ///     void onPacket(const uint8_t* buffer, size_t size)
+    ///     void onPacketReceived(const uint8_t* buffer, size_t size);
     ///
-    /// The packet handler would then be registered like:
+    /// The packet handler would then be registered like this:
     ///
-    ///     myPacketSerial.setPacketHandler(&onPacket);
+    ///     myPacketSerial.setPacketHandler(&onPacketReceived);
+    ///
+    /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunction A pointer to the packet handler function.
     void setPacketHandler(PacketHandlerFunction onPacketFunction)
     {
         _onPacketFunction = onPacketFunction;
+        _onPacketFunctionWithSender = nullptr;
+    }
+
+    /// \brief Set the function that will receive decoded packets.
+    ///
+    /// This function will be called when data is read from the serial stream
+    /// connection and a packet is decoded. The decoded packet will be passed
+    /// to the packet handler. The packet handler must have the form:
+    ///
+    /// The packet handler method usually has the form:
+    ///
+    ///     void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size);
+    ///
+    /// To determine the sender, compare the pointer to the known possible
+    /// PacketSerial senders.
+    ///
+    ///     void onPacketReceived(void* sender, const uint8_t* buffer, size_t size)
+    ///     {
+    ///         if (sender == &myPacketSerial)
+    ///         {
+    ///             // Do something with the packet from myPacketSerial.
+    ///         }
+    ///         else if (sender == &myOtherPacketSerial)
+    ///         {
+    ///             // Do something with the packet from myOtherPacketSerial.
+    ///         }
+    ///     }
+    ///
+    /// The packet handler would then be registered like this:
+    ///
+    ///     myPacketSerial.setPacketHandler(&onPacketReceived);
+    ///
+    /// Setting a packet handler will remove all other packet handlers.
+    ///
+    /// \param onPacketFunctionWithSender A pointer to the packet handler function.
+    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender)
+    {
+        _onPacketFunction = nullptr;
+        _onPacketFunctionWithSender = onPacketFunctionWithSender;
     }
 
 private:
@@ -220,7 +313,7 @@ private:
     Stream* _stream = nullptr;
 
     PacketHandlerFunction _onPacketFunction = nullptr;
-
+    PacketHandlerFunctionWithSender _onPacketFunctionWithSender = nullptr;
 };
 
 
