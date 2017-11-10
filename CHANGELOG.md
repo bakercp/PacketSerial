@@ -6,7 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Removed
-- Remove the `void begin(unsigned long speed, size_t port)`.
+- Remove the `void begin(unsigned long speed, size_t port)` function.
+- Remove the `void begin(Stream* stream)` function.
+
+## [1.2.0] 2017-11-09
+### Added
+- An additional PacketHandler pointer type that includes the sender's pointer e.g. `void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size)`. Either functions can be set. Calling `setPacketHandler()` will always remove all previous function pointers.
+-
+
+### Removed
+- Deprecated all but one basic `void begin(Stream* stream)` function. Use `void setStream(Stream* stream)` instead.
+- Reverted void `PacketSerial_::begin(unsigned long speed, uint8_t config, size_t port)`. 
+
+### Changed
+- Updated README.md, fixed errors, spelling and updated examples.
+
 
 ## [1.1.0] 2017-11-09
 ### Added
