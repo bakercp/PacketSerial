@@ -239,8 +239,8 @@ See the included examples for further usage options.
 
 
 ## Changelog
-See [CHANGELOG.md](CHANGELOG.md)
+See [CHANGELOG.md](CHANGELOG.md).
 
 
 ## License
-See [LICENSE.md](LICENSE.md)
+See [LICENSE.md](LICENSE.md).
