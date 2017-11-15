@@ -31,6 +31,9 @@ public:
 // PacketSerial.h.
 PacketSerial myPacketSerial;
 
+
+// Note that SoftwareSerial is not compatible with SAMD_ZERO
+
 // An additional PacketSerial instance.
 SoftwareSerial mySoftwareSerial(10, 11);
 PacketSerial myOtherPacketSerial;
