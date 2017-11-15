@@ -84,6 +84,9 @@ public:
     void begin(unsigned long speed)
     {
         Serial.begin(speed);
+        #if ARDUINO >= 100
+        while (!Serial) {;}
+        #endif
         setStream(&Serial);
     }
 
@@ -98,18 +101,27 @@ public:
         #if defined(UBRR1H)
             case 1:
                 Serial1.begin(speed);
+                #if ARDUINO >= 100
+                while (!Serial1) {;}
+                #endif
                 setStream(&Serial1);
                 break;
         #endif
         #if defined(UBRR2H)
             case 2:
                 Serial2.begin(speed);
+                #if ARDUINO >= 100
+                while (!Serial1) {;}
+                #endif
                 setStream(&Serial2);
                 break;
         #endif
         #if defined(UBRR3H)
             case 3:
                 Serial3.begin(speed);
+                #if ARDUINO >= 100
+                while (!Serial3) {;}
+                #endif
                 setStream(&Serial3);
                 break;
         #endif
