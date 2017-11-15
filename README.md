@@ -63,7 +63,7 @@ the receiver will see a stream of 2 bytes:
 This is much more compact but can create problems when the user wants to send a _packet_ of data. If the user wants to send a packet consisting of two values such as 255 and 10, we run into problems if we also use the new line ('\n' ASCII 10) character as a packet boundary. This essentially means that the receiver will incorrectly think that a new packet is beginning when it receives the _value_ of 10. Thus, to use this more compact form of sending bytes while reserving one value for a packet boundary marker. Several unambiguous packet boundary marking encodings exist, but one with a small predictable overhead is called [Consistent Overhead Byte Stuffing](http://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing). For a raw packet of length `SIZE`, the maximum encoded buffer size will only be `SIZE + SIZE / 254 + 1`. This is significantly less than ASCII encoding and the encoding / decoding algorithm is simple and fast. In its default mode, the COBS encoding process simply removes all _zeros_ from the packet, allowing the sender and receiver to use the value of _zero_ as a packet boundary marker.
 Another encoding available in `PacketSerial` is [Serial Line Internet Protocol](https://en.wikipedia.org/wiki/Serial_Line_Internet_Protocol) which is often used to send OSC over serial or TCP connections. To use SLIP encoding instead of COBS, use `SLIPPacketSerial` instead of `PacketSerial`. You can find an openFrameworks example of sending OSC data over serial in the [ofxSerial](https://github.com/bakercp/ofxSerial) repository.
 
-## PacketSerial Use
+## Use
 
 `PacketSerial` class wraps the Arduino `Stream` class to automatically encode and decode byte packets that are sent and received. Typically serial communication uses the default `Serial` object, which implements the `Stream` class. In most cases, `PacketSerial` should be given exclusive access to the serial `Stream` (e.g. for a default setup using `Serial`, users should avoid calling functions like `Serial.print()`, `Serial.write()`, etc directly). Data should be sent via the `send(const uint8_t* buffer, size_t size) const` method and received in a `PacketSerial` callback function (see below).
 
@@ -82,11 +82,11 @@ void setup()
 }
 ```
 
-### Advanced
+#### Advanced
 
 For a non-default Serial connection, a class implementing the `Stream` interface should be configured and then set for the `PacketSerial` instance.
 
-#### Using A Non-Standard Serial Configuration
+##### Using A Non-Standard Serial Configuration
 
 ```c++
 PacketSerial myPacketSerial;
@@ -99,7 +99,7 @@ void setup()
 }
 ```
 
-#### Using Secondary Serial Ports (e.g. Serial1, Serial2, etc)
+##### Using Secondary Serial Ports (e.g. Serial1, Serial2, etc)
 
 ```c++
 PacketSerial myPacketSerial;
@@ -112,7 +112,7 @@ void setup()
 }
 ```
 
-#### Using SoftwareSerial
+##### Using SoftwareSerial
 
 ```c++
 PacketSerial myPacketSerial;
@@ -126,7 +126,7 @@ void setup()
 }
 ```
 
-#### Other Streams
+##### Other Streams
 
 Any class that correctly implements the `Stream` interface should work, which includes some network communication objects.
 
