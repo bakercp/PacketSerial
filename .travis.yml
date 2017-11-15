@@ -3,7 +3,7 @@ sudo: false
 before_install:
   - source <(curl -SLs https://raw.githubusercontent.com/bakercp/travis-ci-arduino/master/install.sh)
 install:
-  - arduino --install-library "ArduinoUnit"
+  - arduino --install-library "ArduinoUnit,SoftwareSerial"
 script:
   - build_main_platforms
 notifications:
