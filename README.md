@@ -1,6 +1,8 @@
 PacketSerial
 ============
 
+[![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
+
 ## Description
 
 An Arduino Library that facilitates packet-based serial communication using COBS or SLIP encoding.
