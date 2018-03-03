@@ -229,16 +229,20 @@ uint8_t myPacket[2] = { 255, 10 };
 myPacketSerial.send(myPacket, 2);
 ```
 
+### Multiple Streams
+On boards with multiple serial ports, this strategy can also be used to set up two Serial streams, one for packets and one for debug ASCII (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
+
 ## Examples
 
 See the included examples for further usage options.
 
 ## Compatible Libraries
 
-- openFrameworks
+- openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
     - https://github.com/bakercp/ofxSerial
     - See the `ofx::IO::PacketSerial` object which is directly compatible with this library.
-
+- Python
+    - (PySerial)[https://pythonhosted.org/pyserial/index.html) + (COBS)[https://pythonhosted.org/cobs/] (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
 
 ## Changelog
 See [CHANGELOG.md](CHANGELOG.md).
