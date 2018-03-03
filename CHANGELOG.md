@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Lambda function packetHandler examples and documentation.
 
+### Changed
+- Updated README.md, fixed spelling error, added links, docs.
+
 ## [1.2.0] 2017-11-09
 ### Added
 - An additional PacketHandler pointer type that includes the sender's pointer e.g. `void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size)`. Either functions can be set. Calling `setPacketHandler()` will always remove all previous function pointers.
