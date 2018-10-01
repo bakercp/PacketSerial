@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Remove the `void begin(unsigned long speed, size_t port)` function.
 - Remove the `void begin(Stream* stream)` function.
+- `while(!SerialX)` line when `CORE_TEENSY` is defined. This was leading to unexpected behavior where programs would not start until a serial connection was opened.
 
 ### Added
 - Lambda function packetHandler examples and documentation.

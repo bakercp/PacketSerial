@@ -84,7 +84,7 @@ public:
     void begin(unsigned long speed)
     {
         Serial.begin(speed);
-        #if ARDUINO >= 100
+        #if ARDUINO >= 100 && !defined(CORE_TEENSY)
         while (!Serial) {;}
         #endif
         setStream(&Serial);
@@ -101,7 +101,7 @@ public:
         #if defined(UBRR1H)
             case 1:
                 Serial1.begin(speed);
-                #if ARDUINO >= 100
+                #if ARDUINO >= 100 && !defined(CORE_TEENSY)
                 while (!Serial1) {;}
                 #endif
                 setStream(&Serial1);
@@ -110,7 +110,7 @@ public:
         #if defined(UBRR2H)
             case 2:
                 Serial2.begin(speed);
-                #if ARDUINO >= 100
+                #if ARDUINO >= 100 && !defined(CORE_TEENSY)
                 while (!Serial1) {;}
                 #endif
                 setStream(&Serial2);
@@ -119,7 +119,7 @@ public:
         #if defined(UBRR3H)
             case 3:
                 Serial3.begin(speed);
-                #if ARDUINO >= 100
+                #if ARDUINO >= 100 && !defined(CORE_TEENSY)
                 while (!Serial3) {;}
                 #endif
                 setStream(&Serial3);
