@@ -258,6 +258,70 @@ Tested Compatible Libraries
 
 _Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
 
+### Customizing the PacketSerial Class
+
+The `PacketSerial_` class is a templated class that allows us to statically set the encoder type, packet marker and buffer size at compile time.
+
+The the template parameters are as follows:
+
+```c++
+template<typename EncoderType, uint8_t PacketMarker = 0, size_t BufferSize = 256>
+class PacketSerial_
+
+(...)
+```
+
+The `PacketMarker` has a default of `0` while the `BufferSize` has a default of `256` bytes.
+
+Thus, if you define your class as:
+
+```c++
+PacketSerial_<COBS> myPacketSerial;
+```
+
+You will use the `COBS` encoder type and a default PacketMarker of `0` and buffer size of `256`.
+
+Currently there are three default `PacketSerial_` types defined via `typedef` for convenience:
+
+```c++
+/// \brief A typedef for the default COBS PacketSerial class.
+typedef PacketSerial_<COBS> PacketSerial;
+
+/// \brief A typedef for a PacketSerial type with COBS encoding.
+typedef PacketSerial_<COBS> COBSPacketSerial;
+
+/// \brief A typedef for a PacketSerial type with SLIP encoding.
+typedef PacketSerial_<SLIP, SLIP::END> SLIPPacketSerial;
+```
+
+### Customizng the EncoderType Type
+
+To use a custom encoding type, the `EncoderType` class must implement the following functions:
+
+```c++
+    static size_t encode(const uint8_t* buffer, size_t size, uint8_t* encodedBuffer);
+    static size_t decode(const uint8_t* encodedBuffer, size_t size, uint8_t* decodedBuffer);
+    static size_t getEncodedBufferSize(size_t unencodedBufferSize);
+```
+
+See the `Encoding/COBS.h` and `Encoding/SLIP.h` for examples and further documentation.
+
+### Customizing the Packet Marker Byte and Buffer Size
+
+For example, to increase the buffer size for a standard `COBS` encoder to 512, one can defined the templated class like this:
+
+```c++
+PacketSerial_<COBS, 0, 512> myPacketSerial;
+```
+
+This uses the COBS encoder type, a PacketMarker of 0 and a buffer size of 512.
+
+Likewise, a custom `SLIP` encoder with a buffer size of 512 bytes would be defined like this:
+
+```c++
+PacketSerial_<SLIP, SLIP::END, 512> myPacketSerial;
+```
+
 Changelog
 ---------
 See [CHANGELOG.md](CHANGELOG.md).
