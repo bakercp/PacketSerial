@@ -134,10 +134,25 @@ public:
     /// \brief Key constants used in the SLIP protocol.
     enum
     {
-        END = 0300,
-        ESC = 0333,
-        ESC_END = 0334,
-        ESC_ESC = 0335
+        /// \brief The decimal END character (octal 0300).
+        ///
+        /// Indicates the end of a packet.
+        END = 192, 
+
+        /// \brief The decimal ESC character (octal 0333).
+        ///
+        /// Indicates byte stuffing.
+        ESC = 219,
+
+        /// \brief The decimal ESC_END character (octal 0334).
+        ///
+        /// ESC ESC_END means END data byte.
+        ESC_END = 220,
+
+        /// \brief The decimal ESC_ESC character (ocatal 0335).
+        ///
+        /// ESC ESC_ESC means ESC data byte.
+        ESC_ESC = 221
     };
 
 };

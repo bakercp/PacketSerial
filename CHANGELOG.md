@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Updated README.md, fixed spelling error, added links, docs.
+- Rewrote SLIP enum in terms of decimal notation for consistency.
 
 ## [1.2.0] 2017-11-09
 
