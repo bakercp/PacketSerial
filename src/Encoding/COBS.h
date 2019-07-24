@@ -2,7 +2,7 @@
 // Copyright (c) 2011 Christopher Baker <https://christopherbaker.net>
 // Copyright (c) 2011 Jacques Fortier <https://github.com/jacquesf/COBS-Consistent-Overhead-Byte-Stuffing>
 //
-// SPDX-License-Identifier:	MIT
+// SPDX-License-Identifier: MIT
 //
 
 
@@ -35,7 +35,8 @@ public:
     /// \param size  The number of bytes in the \p buffer.
     /// \param encodedBuffer The buffer for the encoded bytes.
     /// \returns The number of bytes written to the \p encodedBuffer.
-    /// \warning The encodedBuffer must have at least getEncodedBufferSize() allocated.
+    /// \warning The encodedBuffer must have at least getEncodedBufferSize() 
+    ///          allocated.
     static size_t encode(const uint8_t* buffer,
                          size_t size,
                          uint8_t* encodedBuffer)

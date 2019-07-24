@@ -236,6 +236,7 @@ myPacketSerial.send(myPacket, 2);
 ```
 
 ### Multiple Streams
+
 On boards with multiple serial ports, this strategy can also be used to set up two Serial streams, one for packets and one for debug ASCII (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
 
 Examples

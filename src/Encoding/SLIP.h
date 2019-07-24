@@ -2,7 +2,7 @@
 // Copyright (c) 2010 Christopher Baker <https://christopherbaker.net>
 // Copyright (c) 2016 Antoine Villeret
 //
-// SPDX-License-Identifier:	MIT
+// SPDX-License-Identifier: MIT
 //
 
 
@@ -29,7 +29,8 @@ public:
     /// \param size  The number of bytes in the \p buffer.
     /// \param encodedBuffer The buffer for the encoded bytes.
     /// \returns The number of bytes written to the \p encodedBuffer.
-    /// \warning The encodedBuffer must have at least getEncodedBufferSize() allocated.
+    /// \warning The encodedBuffer must have at least getEncodedBufferSize() 
+    ///          allocated.
     static size_t encode(const uint8_t* buffer,
                          size_t size,
                          uint8_t* encodedBuffer)
@@ -40,7 +41,8 @@ public:
         size_t read_index  = 0;
         size_t write_index = 0;
 
-        // double-ENDed, flush any data that may have accumulated due to line noise
+        // Double-ENDed, flush any data that may have accumulated due to line 
+        // noise.
         encodedBuffer[write_index++] = END;
 
         while (read_index < size)
