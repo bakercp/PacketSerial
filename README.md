@@ -322,7 +322,7 @@ typedef PacketSerial_<COBS> COBSPacketSerial;
 typedef PacketSerial_<SLIP, SLIP::END> SLIPPacketSerial;
 ```
 
-### Customizng the EncoderType Type
+### Changing the EncoderType Type
 
 To use a custom encoding type, the `EncoderType` class must implement the following functions:
 
@@ -334,7 +334,7 @@ To use a custom encoding type, the `EncoderType` class must implement the follow
 
 See the `Encoding/COBS.h` and `Encoding/SLIP.h` for examples and further documentation.
 
-### Customizing the Packet Marker Byte and Buffer Size
+### Changing the Packet Marker Byte and Receive Buffer Size
 
 For example, to increase the buffer size for a standard `COBS` encoder to 512, one can defined the templated class like this:
 
@@ -352,9 +352,11 @@ PacketSerial_<SLIP, SLIP::END, 512> myPacketSerial;
 
 Changelog
 ---------
+
 See [CHANGELOG.md](CHANGELOG.md).
 
 
 License
 -------
+
 See [LICENSE.md](LICENSE.md).
