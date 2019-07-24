@@ -39,7 +39,7 @@ Serial.print('\n');
 
 The receiver will actually see a stream of 7 bytes:
 
-```
+```console
 50 // ASCII '2'
 53 // ASCII '5'
 53 // ASCII '5'
@@ -60,7 +60,7 @@ Serial.write('\n');
 
 the receiver will see a stream of 2 bytes:
 
-```
+```console
 255 // The value transmitted.
 10  // The new line character (\n).
 ```
@@ -247,14 +247,14 @@ See the included examples for further usage options.
 Tested Compatible Libraries
 ---------------------------
 
--   openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
-    -   [ofxSerial](https://github.com/bakercp/ofxSerial) addon.
-        -   See the `ofx::IO::PacketSerial` object which is directly compatible with this library.
--   Python
-    -   [PySerial](https://pythonhosted.org/pyserial/index.html)
-        -   [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
-        -   [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1)
+- openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
+  - [ofxSerial](https://github.com/bakercp/ofxSerial) addon.
+    - See the `ofx::IO::PacketSerial` object which is directly compatible with this library.
 
+- Python
+  - [PySerial](https://pythonhosted.org/pyserial/index.html)
+    - [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
+    - [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1)
 
 _Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
 
