@@ -24,7 +24,7 @@
 /// \tparam EncoderType The static packet encoder class name.
 /// \tparam PacketMarker The byte value used to mark the packet boundary.
 /// \tparam BufferSize The number of bytes allocated for the receive buffer.
-template<typename EncoderType, uint8_t PacketMarker = 0, size_t BufferSize = 256>
+template<typename EncoderType, uint8_t PacketMarker = 0, size_t ReceiveBufferSize = 256>
 class PacketSerial_
 {
 public:
@@ -214,7 +214,7 @@ public:
             }
             else
             {
-                if ((_receiveBufferIndex + 1) < BufferSize)
+                if ((_receiveBufferIndex + 1) < ReceiveBufferSize)
                 {
                     _receiveBuffer[_receiveBufferIndex++] = data;
                 }
@@ -319,7 +319,7 @@ private:
     PacketSerial_(const PacketSerial_&);
     PacketSerial_& operator = (const PacketSerial_&);
 
-    uint8_t _receiveBuffer[BufferSize];
+    uint8_t _receiveBuffer[ReceiveBufferSize];
     size_t _receiveBufferIndex = 0;
 
     Stream* _stream = nullptr;
