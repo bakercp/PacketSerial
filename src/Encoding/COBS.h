@@ -118,7 +118,7 @@ public:
         return write_index;
     }
 
-    /// \brief Get the maximum encoded buffer size needed for a given unencoded buffer size.
+    /// \brief Get the maximum encoded buffer size for an unencoded buffer size.
     /// \param unencodedBufferSize The size of the buffer to be encoded.
     /// \returns the maximum size of the required encoded buffer.
     static size_t getEncodedBufferSize(size_t unencodedBufferSize)

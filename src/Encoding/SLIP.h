@@ -12,13 +12,13 @@
 #include "Arduino.h"
 
 
-/// \brief A Serial Line IP (SLIP) Encoder.
+/// \brief A Serial Line Internet Protocol (SLIP) Encoder.
 ///
-/// Serial Line IP (SLIP) is a packet framing protocol: SLIP defines a sequence
-/// of characters that frame IP packets on a serial line and nothing more. It
-/// provides no addressing, packet type identification, error detection,
-/// correction or compression mechanisms. Because the protocol does so little
-/// its implementation is trivial and fast.
+/// Serial Line Internet Protocol (SLIP) is a packet framing protocol: SLIP 
+/// defines a sequence of characters that frame IP packets on a serial line and 
+/// nothing more. It provides no addressing, packet type identification, error 
+/// detection, correction or compression mechanisms. Because the protocol does 
+/// so little its implementation is trivial and fast.
 ///
 /// \sa http://tools.ietf.org/html/rfc1055
 class SLIP
@@ -105,7 +105,7 @@ public:
                 }
                 else
                 {
-                    // considered a protocol violation
+                    // This case is considered a protocol violation.
                 }
             }
             else
@@ -117,12 +117,12 @@ public:
         return write_index;
     }
 
-    /// \brief Get the maximum encoded buffer size needed for a given unencoded buffer size.
+    /// \brief Get the maximum encoded buffer size for an unencoded buffer size.
     ///
-    /// SLIP has a start and a end markers (192 and 219). Marker value is
+    /// SLIP has a start and end markers (192 and 219). Marker value is
     /// replaced by 2 bytes in the encoded buffer. So in the worst case of
     /// sending a buffer with only '192' or '219', the encoded buffer length
-    /// will be 2 * buffer.size() + 2
+    /// will be 2 * buffer.size() + 2.
     ///
     /// \param unencodedBufferSize The size of the buffer to be encoded.
     /// \returns the maximum size of the required encoded buffer.
