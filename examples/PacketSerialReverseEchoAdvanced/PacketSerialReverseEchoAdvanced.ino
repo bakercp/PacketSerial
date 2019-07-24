@@ -8,6 +8,7 @@
 #include <PacketSerial.h>
 #include <SoftwareSerial.h>
 
+
 // Instances of this class can recieve data packets when registered.
 class MyClass
 {
@@ -79,6 +80,16 @@ void loop()
   // to call the PacketSerial::update() frequently enough may result in buffer
   // serial overflows.
   myPacketSerial.update();
+
+  // Check for a receive buffer overflow (optional).
+  if (myPacketSerial.overflow())
+  {
+    // Send an alert via a pin (e.g. make an overflow LED) or return a
+    // user-defined packet to the sender.
+    //
+    // Ultimately you may need to just increase your recieve buffer via the
+    // template parameters (see the README.md).
+  }
 }
 
 // This is our handler callback function.
