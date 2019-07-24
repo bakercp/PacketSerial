@@ -1,7 +1,11 @@
 language: c
 sudo: false
+cache:
+  directories:
+    - ~/arduino_ide
+    - ~/.arduino15/packages/
 before_install:
-  - source <(curl -SLs https://raw.githubusercontent.com/bakercp/travis-ci-arduino/master/install.sh)
+  - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
 install:
   - arduino --install-library "ArduinoUnit"
 script:
@@ -10,4 +14,3 @@ notifications:
   email:
     on_success: change
     on_failure: change
-
