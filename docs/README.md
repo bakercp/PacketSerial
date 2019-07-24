@@ -1,24 +1,20 @@
-PacketSerial
-============
+# PacketSerial
 
 [![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
 
-Description
------------
+## Description
 
 An Arduino Library that facilitates packet-based serial communication using COBS or SLIP encoding.
 
-Features
---------
+## Features
 
 _PacketSerial_ is an small, efficient, library that allows [Arduinos](http://www.arduino.cc/) to send and receive serial data packets (with COBS, SLIP or a user-defined encoding) that include bytes of any value (0 - 255). A _packet_ is simply an array of bytes.
 
-Background
-----------
+## Background
 
 _Why do I need this?_ you may ask. The truth is that you may not need it if you are converting your values to ASCII strings and separating them with a known character (like a carriage return `\r` and a line feed `\n`) before sending them. This is what happens if you call and `Serial.println();`. For instance, if you just want to send a byte with the value of 255 and follow it with a new line character (i.e. `Serial.println(255);`) the Arduino automatically converts the number to the equivalent printable ASCII characters, sending 5 bytes total. As a result the receiver won't just receive a byte for the number and two bytes for the carriage return and new line character. Instead it will receive a stream of 5 bytes:
 
-```
+```console
 50 // ASCII '2'
 53 // ASCII '5'
 53 // ASCII '5'
@@ -30,7 +26,7 @@ The receiver must then collect the 3 ASCII characters { '2', '5', '5' }, combin
 
 One way to send a _packet_ of data without this library is to send each byte separated by a comma or space and terminate the sequence with a new line character. Thus, to send the value `255` and the value `10`, one might call:
 
-```c++
+```cpp
 Serial.print(255);
 Serial.print(',');
 Serial.print(10);
@@ -53,7 +49,7 @@ In this case, the receiver must then collect the ASCII characters, combine them,
 
 An alternative to ASCII encoding is to write the bytes directly to using the `Serial.write()` methods. These methods do not convert the byte values to ASCII. So if the user wants to send a single byte with the value of `255` and follow it with a new line character:
 
-```c++
+```cpp
 Serial.write(255);
 Serial.write('\n');
 ```
@@ -65,22 +61,20 @@ the receiver will see a stream of 2 bytes:
 10  // The new line character (\n).
 ```
 
-This is much more compact but can create problems when the user wants to send a _packet_ of data. If the user wants to send a packet consisting of two values such as 255 and 10, we run into problems if we also use the new line ('\n' ASCII 10) character as a packet boundary. This essentially means that the receiver will incorrectly think that a new packet is beginning when it receives the _value_ of 10. Thus, to use this more compact form of sending bytes while reserving one value for a packet boundary marker. Several unambiguous packet boundary marking encodings exist, but one with a small predictable overhead is called [Consistent Overhead Byte Stuffing](http://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing). For a raw packet of length `SIZE`, the maximum encoded buffer size will only be `SIZE + SIZE / 254 + 1`. This is significantly less than ASCII encoding and the encoding / decoding algorithm is simple and fast. In its default mode, the COBS encoding process simply removes all _zeros_ from the packet, allowing the sender and receiver to use the value of _zero_ as a packet boundary marker.
+This is much more compact but can create problems when the user wants to send a _packet_ of data. If the user wants to send a packet consisting of two values such as 255 and 10, we run into problems if we also use the new line (`\n` ASCII 10) character as a packet boundary. This essentially means that the receiver will incorrectly think that a new packet is beginning when it receives the _value_ of 10. Thus, to use this more compact form of sending bytes while reserving one value for a packet boundary marker. Several unambiguous packet boundary marking encodings exist, but one with a small predictable overhead is called [Consistent Overhead Byte Stuffing](http://en.wikipedia.org/wiki/Consistent_Overhead_Byte_Stuffing). For a raw packet of length `SIZE`, the maximum encoded buffer size will only be `SIZE + SIZE / 254 + 1`. This is significantly less than ASCII encoding and the encoding / decoding algorithm is simple and fast. In its default mode, the COBS encoding process simply removes all _zeros_ from the packet, allowing the sender and receiver to use the value of _zero_ as a packet boundary marker.
 Another encoding available in `PacketSerial` is [Serial Line Internet Protocol](https://en.wikipedia.org/wiki/Serial_Line_Internet_Protocol) which is often used to send OSC over serial or TCP connections. To use SLIP encoding instead of COBS, use `SLIPPacketSerial` instead of `PacketSerial`. You can find an openFrameworks example of sending OSC data over serial in the [ofxSerial](https://github.com/bakercp/ofxSerial) repository.
 
-Use
----
+## Use
 
 `PacketSerial` class wraps the Arduino `Stream` class to automatically encode and decode byte packets that are sent and received. Typically serial communication uses the default `Serial` object, which implements the `Stream` class. In most cases, `PacketSerial` should be given exclusive access to the serial `Stream` (e.g. for a default setup using `Serial`, users should avoid calling functions like `Serial.print()`, `Serial.write()`, etc directly). Data should be sent via the `send(const uint8_t* buffer, size_t size) const` method and received in a `PacketSerial` callback function (see below).
 
-Setup
------
+## Setup
 
-#### Basic
+### Basic
 
 To use the default `Serial` object and the default communication settings (usually `SERIAL_8N1`), set up `PacketSerial` like this:
 
-```c++
+```cpp
 PacketSerial myPacketSerial;
 
 void setup()
@@ -90,13 +84,13 @@ void setup()
 }
 ```
 
-#### Advanced
+### Advanced
 
 For a non-default Serial connection, a class implementing the `Stream` interface should be configured and then set for the `PacketSerial` instance.
 
-##### Using A Non-Standard Serial Configuration
+#### Using A Non-Standard Serial Configuration
 
-```c++
+```cpp
 PacketSerial myPacketSerial;
 
 void setup()
@@ -107,9 +101,9 @@ void setup()
 }
 ```
 
-##### Using Secondary Serial Ports (e.g. Serial1, Serial2, etc)
+#### Using Secondary Serial Ports (e.g. Serial1, Serial2, etc)
 
-```c++
+```cpp
 PacketSerial myPacketSerial;
 
 void setup()
@@ -120,9 +114,9 @@ void setup()
 }
 ```
 
-##### Using SoftwareSerial
+#### Using SoftwareSerial
 
-```c++
+```cpp
 PacketSerial myPacketSerial;
 SoftwareSerial mySoftwareSerial(10, 11);
 
@@ -134,7 +128,7 @@ void setup()
 }
 ```
 
-##### Other Streams
+#### Other Streams
 
 Any class that correctly implements the `Stream` interface should work, which includes some network communication objects.
 
@@ -142,7 +136,7 @@ Any class that correctly implements the `Stream` interface should work, which in
 
 In order to processing incoming serial packets, the user must call the `update()` method at the end of the `loop()` method.
 
-```c++
+```cpp
 void loop()
 {
     // Your program here.
@@ -158,7 +152,7 @@ void loop()
 
 All packets are received via handler functions. A typical handler function would be registered in the `void setup()` function like:
 
-```c++
+```cpp
 PacketSerial myPacketSerial;
 
 void setup()
@@ -170,8 +164,7 @@ void setup()
 
 The `onPacketReceived` function can take two forms. The simplest looks like this:
 
-
-```c++
+```cpp
 void onPacketReceived(const uint8_t* buffer, size_t size)
 {
     // Process your decoded incoming packet here.
@@ -180,7 +173,7 @@ void onPacketReceived(const uint8_t* buffer, size_t size)
 
 For more advanced programs with multiple PacketSerial instances and a shared handler, it may be useful to know which PacketSerial instance received the packet. In this case you could define a callback like this:
 
-```c++
+```cpp
 void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size)
 {
     if (sender == &myPacketSerial)
@@ -192,12 +185,11 @@ void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size)
         // Do something with the packet from myOtherPacketSerial.
     }
 }
-
 ```
 
 Finally, it is also possible to set arbitrary packet handlers that point to member functions of a given class instance using lambda functions. For example:
 
-```c++
+```cpp
 // Instances of this class can receive data packets when registered.
 class MyClass
 {
@@ -226,7 +218,7 @@ void setup()
 
 To send packets call the `send()` method. The send method will take a packet (an array of bytes), encode it, transmit it and send the packet boundary marker. To send the values `255` and `10`, one might do the following:
 
-```c++
+```cpp
 
 // Make an array.
 uint8_t myPacket[2] = { 255, 10 };
@@ -247,7 +239,7 @@ To check for overflows, call the `receiveBufferOverflowed()` method after callin
 
 For example:
 
-```c++
+```cpp
 void loop()
 {
     // Other program code.
@@ -267,32 +259,13 @@ void loop()
 
 The state of the overflow flag is reset every time a new packet marker is detected, NOT when the `overflow()` method is called.
 
-Examples
---------
-
-See the included examples for further usage options.
-
-Tested Compatible Libraries
----------------------------
-
-- openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
-  - [ofxSerial](https://github.com/bakercp/ofxSerial) addon.
-    - See the `ofx::IO::PacketSerial` object which is directly compatible with this library.
-
-- Python
-  - [PySerial](https://pythonhosted.org/pyserial/index.html)
-    - [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
-    - [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1)
-
-_Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
-
 ### Customizing the PacketSerial Class
 
 The `PacketSerial_` class is a templated class that allows us to statically set the encoder type, packet marker and buffer size at compile time.
 
 The the template parameters are as follows:
 
-```c++
+```cpp
 template<typename EncoderType, uint8_t PacketMarker = 0, size_t BufferSize = 256>
 class PacketSerial_
 
@@ -303,7 +276,7 @@ The `PacketMarker` has a default of `0` while the `BufferSize` has a default of 
 
 Thus, if you define your class as:
 
-```c++
+```cpp
 PacketSerial_<COBS> myPacketSerial;
 ```
 
@@ -311,7 +284,7 @@ You will use the `COBS` encoder type and a default PacketMarker of `0` and buffe
 
 Currently there are three default `PacketSerial_` types defined via `typedef` for convenience:
 
-```c++
+```cpp
 /// \brief A typedef for the default COBS PacketSerial class.
 typedef PacketSerial_<COBS> PacketSerial;
 
@@ -326,7 +299,7 @@ typedef PacketSerial_<SLIP, SLIP::END> SLIPPacketSerial;
 
 To use a custom encoding type, the `EncoderType` class must implement the following functions:
 
-```c++
+```cpp
     static size_t encode(const uint8_t* buffer, size_t size, uint8_t* encodedBuffer);
     static size_t decode(const uint8_t* encodedBuffer, size_t size, uint8_t* decodedBuffer);
     static size_t getEncodedBufferSize(size_t unencodedBufferSize);
@@ -338,7 +311,7 @@ See the `Encoding/COBS.h` and `Encoding/SLIP.h` for examples and further documen
 
 For example, to increase the buffer size for a standard `COBS` encoder to 512, one can defined the templated class like this:
 
-```c++
+```cpp
 PacketSerial_<COBS, 0, 512> myPacketSerial;
 ```
 
@@ -346,17 +319,43 @@ This uses the COBS encoder type, a PacketMarker of 0 and a buffer size of 512.
 
 Likewise, a custom `SLIP` encoder with a buffer size of 512 bytes would be defined like this:
 
-```c++
+```cpp
 PacketSerial_<SLIP, SLIP::END, 512> myPacketSerial;
 ```
 
-Changelog
----------
+## Examples
+
+See the included examples for further usage options.
+
+## Documentation
+
+See [https://bakercp.github.com/PacketSerial](https://bakercp.github.com/PacketSerial).
+
+## Compatibility
+
+- openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
+  - [ofxSerial](https://github.com/bakercp/ofxSerial) addon.
+    - See the `ofx::IO::PacketSerial` object which is directly compatible with this library.
+
+- Python
+  - [PySerial](https://pythonhosted.org/pyserial/index.html)
+    - [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
+    - [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1)
+
+_Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
+
+## Contributing
+
+See the [Contributing](CONTRIBUTING.md) guide.
+
+## Code of Conduct
+
+See the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
 
-
-License
--------
+## License
 
 See [LICENSE.md](LICENSE.md).
