@@ -239,6 +239,34 @@ myPacketSerial.send(myPacket, 2);
 
 On boards with multiple serial ports, this strategy can also be used to set up two Serial streams, one for packets and one for debug ASCII (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
 
+### Checking for Receive Buffer Overflows
+
+In some cases the receive buffer may not be large enough for an incoming encoded packet.
+
+To check for overflows, call the `receiveBufferOverflowed()` method after calling `update()`.  
+
+For example:
+
+```c++
+void loop()
+{
+    // Other program code.
+    myPacketSerial.update();
+
+    // Check for a receive buffer overflow.
+    if (myPacketSerial.overflow())
+    {
+        // Send an alert via a pin (e.g. make an overflow LED) or return a
+        // user-defined packet to the sender.
+        //
+        // Ultimately you may need to just increase your recieve buffer via the
+        // template parameters.
+    }
+}
+```
+
+The state of the overflow flag is reset every time a new packet marker is detected, NOT when the `overflow()` method is called.
+
 Examples
 --------
 

@@ -211,6 +211,7 @@ public:
                 }
 
                 _receiveBufferIndex = 0;
+                _recieveBufferOverflow = false;
             }
             else
             {
@@ -220,7 +221,9 @@ public:
                 }
                 else
                 {
-                    // Error, buffer overflow if we write.
+                    // The buffer will be in an overflowed state if we write
+                    // so set a buffer overflowed flag.
+                    _recieveBufferOverflow = true;
                 }
             }
         }
@@ -315,9 +318,40 @@ public:
         _onPacketFunctionWithSender = onPacketFunctionWithSender;
     }
 
+    /// \brief Check to see if the receive buffer overflowed.
+    ///
+    /// This must be called often, directly after the `update()` function.
+    ///
+    ///     void loop()
+    ///     {
+    ///         // Other program code.
+    ///         myPacketSerial.update();
+    ///
+    ///         // Check for a receive buffer overflow.
+    ///         if (myPacketSerial.overflow())
+    ///         {
+    ///             // Send an alert via a pin (e.g. make an overflow LED) or return a
+    ///             // user-defined packet to the sender.
+    ///             //
+    ///             // Ultimately you may need to just increase your recieve buffer via the
+    ///             // template parameters.
+    ///         }
+    ///     }
+    ///
+    /// The state is reset every time a new packet marker is received NOT when 
+    /// overflow() method is called.
+    ///
+    /// \returns true if the receive buffer overflowed.
+    bool overflow() const
+    {
+        return _recieveBufferOverflow;
+    }
+
 private:
     PacketSerial_(const PacketSerial_&);
     PacketSerial_& operator = (const PacketSerial_&);
+
+    bool _recieveBufferOverflow = false;
 
     uint8_t _receiveBuffer[ReceiveBufferSize];
     size_t _receiveBufferIndex = 0;

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Lambda function packetHandler examples and documentation.
+- Add `bool overflow() const` to check for a receive buffer overflow.
 
 ### Changed
 
