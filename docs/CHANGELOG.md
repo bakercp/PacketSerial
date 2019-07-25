@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- None
+
+### Changed
+
+- None
+
+### Removed
+
+- None
+
+### Fixed
+
+- None
+
+### Security
+
+- None
+
+## [1.3.0] 2019-07-25
+
 ### Removed
 
 - Remove the `void begin(unsigned long speed, size_t port)` function.
