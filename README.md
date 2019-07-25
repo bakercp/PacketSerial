@@ -9,21 +9,13 @@ A _packet_ is simply an array of bytes.
 
 ## Documentation
 
-### Background
+If you're asking _Why do I need this?_, read the [background introduction](docs/BACKGROUND.md) page. If you're ready to get started check out the [getting started](docs/GETTING_STARTED.md) page. You can also learn a lot by reading through the [examples](examples). Finally, if you're interested in learning more about how the code works, read the comments in the [source](src) and check out the [API documentation](https://bakercp.github.com/PacketSerial).
 
-See the [background introduction](docs/BACKGROUND.md) page.
-
-### Getting Started
-
-See the [getting started](docs/GETTING_STARTED.md) page.
-
-### Examples
-
-Find the examples [here](examples).
-
-### API
-
-See the API [documentation](https://bakercp.github.com/PacketSerial).
+- [Background](docs/BACKGROUND.md)
+- [Getting Started](docs/GETTING_STARTED.md)
+- [Examples](examples)
+- [API Documentation](https://bakercp.github.com/PacketSerial)
+- [Source](src)
 
 ## Support
 
