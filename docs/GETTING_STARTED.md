@@ -1,5 +1,7 @@
 # Getting Started
 
+First, it might be worth it to read the [background introduction](BACKGROUND.md).
+
 ## Use
 
 `PacketSerial` class wraps the Arduino `Stream` class to automatically encode and decode byte packets that are sent and received. Typically serial communication uses the default `Serial` object, which implements the `Stream` class. In most cases, `PacketSerial` should be given exclusive access to the serial `Stream` (e.g. for a default setup using `Serial`, users should avoid calling functions like `Serial.print()`, `Serial.write()`, etc directly). Data should be sent via the `send(const uint8_t* buffer, size_t size) const` method and received in a `PacketSerial` callback function (see below).
