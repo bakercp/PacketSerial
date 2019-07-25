@@ -1,6 +1,6 @@
 # PacketSerial
 
-> An Arduino Library that facilitates packet-based serial communication using COBS or SLIP encoding.
+An Arduino Library that facilitates packet-based serial communication using COBS or SLIP encoding.
 
 ## Features
 
@@ -9,7 +9,7 @@ A _packet_ is simply an array of bytes.
 
 ## Documentation
 
-If you're asking _Why do I need this?_, read the [background introduction](docs/BACKGROUND.md) page. If you're ready to get started, check out the [getting started](docs/GETTING_STARTED.md) page. You can also learn a lot by reading through the [examples](examples). Finally, if you're interested in learning more about how the code works, read the comments in the [source code](src) and check out the [API documentation](https://bakercp.github.com/PacketSerial).
+If you're asking _Why do I need this?_, read the [background introduction](docs/BACKGROUND.md) page. If you're ready to get started, check out the [getting started](docs/GETTING_STARTED.md) page. You can also learn a lot by reading through the [examples](examples/). Finally, if you're interested in learning more about how the code works, read the comments in the [source code](src/) and check out the [API documentation](https://bakercp.github.com/PacketSerial).
 
 ## Support
 
