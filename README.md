@@ -45,8 +45,8 @@ This project is licensed under the [MIT License](LICENSE.md).
 
 ### Contributing
 
-If you'd like to contribute to this project, please check out the [Code of Conduct](docs/CODE_OF_CONDUCT.md) and [contributing](docs/CONTRIBUTING.md) guide.
+If you'd like to contribute to this project, please check out the [Code of Conduct](docs/CODE_OF_CONDUCT.md) and the [contributing](docs/CONTRIBUTING.md) guide.
 
 ### Versioning
 
-This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html). You can check out recent changes in [changelog](CHANGELOG.md)
+This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html). You can check out recent changes in the [changelog](CHANGELOG.md).
