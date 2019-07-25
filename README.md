@@ -15,7 +15,7 @@ If you're asking _Why do I need this?_, read the [background introduction](docs/
 - [Getting Started](docs/GETTING_STARTED.md)
 - [Examples](examples)
 - [API Documentation](https://bakercp.github.com/PacketSerial)
-- [Source](src)
+- [Source Code](src)
 
 ## Support
 
