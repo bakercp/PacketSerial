@@ -325,7 +325,7 @@ PacketSerial_<SLIP, SLIP::END, 512> myPacketSerial;
 
 ## Examples
 
-See the included [examples][../examples] for further usage options.
+See the included [examples](../examples) for further usage options.
 
 ## Compatibility
 
