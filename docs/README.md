@@ -354,8 +354,8 @@ See the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md).
+See the [Changelog](CHANGELOG.md).
 
 ## License
 
-See [LICENSE.md](LICENSE.md).
+See the [License](LICENSE.md).
