@@ -39,7 +39,7 @@ This project is licensed under the [MIT License](LICENSE.md).
 
 ## Project Management
 
-## Repository
+### Repository
 
 [https://github.com/bakercp/PacketSerial](https://github.com/bakercp/PacketSerial)
 
