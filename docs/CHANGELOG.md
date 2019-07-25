@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Lambda function packetHandler examples and documentation.
 - Add `bool overflow() const` to check for a receive buffer overflow.
+- Added API documentation @ [http://bakercp.github.io/PacketSerial/](http://bakercp.github.io/PacketSerial/)
 
 ### Changed
 
