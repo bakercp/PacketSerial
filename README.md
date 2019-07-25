@@ -4,7 +4,7 @@ An Arduino Library that facilitates packet-based serial communication using COBS
 
 ## Features
 
-_PacketSerial_ is an small, efficient, library that allows [Arduinos](http://www.arduino.cc/) to send and receive serial data packets (with COBS, SLIP or a user-defined encoding) that include bytes of any value (0 - 255). 
+_PacketSerial_ is an small, efficient, library that allows [Arduinos](http://www.arduino.cc/) to send and receive serial data packets (with COBS, SLIP or a user-defined encoding) that include bytes of any value (0 - 255).
 A _packet_ is simply an array of bytes.
 
 ## Documentation
@@ -38,6 +38,10 @@ Ultimately, any library that correctly implements a COBS or SLIP encoding scheme
 This project is licensed under the [MIT License](LICENSE.md).
 
 ## Project Management
+
+## Repository
+
+[https://github.com/bakercp/PacketSerial](https://github.com/bakercp/PacketSerial)
 
 ### Contributing
 
