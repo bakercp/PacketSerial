@@ -325,11 +325,7 @@ PacketSerial_<SLIP, SLIP::END, 512> myPacketSerial;
 
 ## Examples
 
-See the included examples for further usage options.
-
-## Documentation
-
-See [https://bakercp.github.com/PacketSerial](https://bakercp.github.com/PacketSerial).
+See the included [examples][../examples] for further usage options.
 
 ## Compatibility
 
@@ -343,6 +339,10 @@ See [https://bakercp.github.com/PacketSerial](https://bakercp.github.com/PacketS
     - [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1)
 
 _Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
+
+## Documentation
+
+See [https://bakercp.github.com/PacketSerial](https://bakercp.github.com/PacketSerial).
 
 ## Contributing
 
