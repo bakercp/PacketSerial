@@ -38,4 +38,4 @@ jobs:
         keep_history: false
         local_dir: docs/html
         on:
-          branch: develop
+          branch: master
