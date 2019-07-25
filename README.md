@@ -2,40 +2,40 @@
 
 > An Arduino Library that facilitates packet-based serial communication using COBS or SLIP encoding.
 
-[![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
-
-- **Documentation**: [https://bakercp.github.com/PacketSerial](https://bakercp.github.com/PacketSerial)
-- **Repository**: [https://github.com/bakercp/PacketSerial](https://github.com/bakercp/PacketSerial)  
-- **License**: [MIT](LICENSE.md)
-
-- **Changelog**: [Changelog](docs/CHANGELOG.md).
-- **Examples**: [Examples](examples).
-
 ## Features
 
-_PacketSerial_ is an small, efficient, library that allows [Arduinos](http://www.arduino.cc/) to send and receive serial data packets (with COBS, SLIP or a user-defined encoding) that include bytes of any value (0 - 255). A _packet_ is simply an array of bytes.
+_PacketSerial_ is an small, efficient, library that allows [Arduinos](http://www.arduino.cc/) to send and receive serial data packets (with COBS, SLIP or a user-defined encoding) that include bytes of any value (0 - 255). 
+A _packet_ is simply an array of bytes.
 
-## Background
+## Documentation
 
-_Why do I need this?_ See the [background introduction](docs/BACKGROUND.md) page.
+### Background
 
-## Getting Started 
+See the [background introduction](docs/BACKGROUND.md) page.
 
-> How do I get started?
+### Getting Started
 
 See the [getting started](docs/GETTING_STARTED.md) page.
 
-## Contributing
+### Examples
 
-See the [contributing](docs/CONTRIBUTING.md) page.
+A lot of help can be found in the examples. Find them [here](examples).
+
+### API
+
+See the API [documentation](https://bakercp.github.com/PacketSerial).
 
 ## Support
 
-See the 
+See the [support](docs/SUPPORT.md) page.
 
 ## Compatibility
 
-### Other Software
+### Build Status
+
+[![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
+
+### Other Platforms
 
 - openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
   - [ofxSerial](https://github.com/bakercp/ofxSerial) addon.
@@ -48,8 +48,24 @@ See the
 
 _Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
 
-### Hardware
+[![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
 
-The code is tested with a number of Arduino Platforms.
+## Versioning
 
+This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html), although strict adherence will only come into effect at version 1.0.0.
 
+## Changelog
+
+See the [Changelog](CHANGELOG.md).
+
+## Code of Conduct
+
+See the [Code of Conduct](docs/CODE_OF_CONDUCT.md).
+
+## Contributing
+
+See [Contributing](docs/CONTRIBUTING.md) guide.
+
+## Licensing
+
+See the [License](LICENSE.md).
