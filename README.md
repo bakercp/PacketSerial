@@ -40,24 +40,9 @@ See the [support](docs/SUPPORT.md) page.
 
 _Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
 
-[![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
+## Project Information
 
-## Versioning
-
-This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html), although strict adherence will only come into effect at version 1.0.0.
-
-## Changelog
-
-See the [Changelog](CHANGELOG.md).
-
-## Code of Conduct
-
-See the [Code of Conduct](docs/CODE_OF_CONDUCT.md).
-
-## Contributing
-
-See [Contributing](docs/CONTRIBUTING.md) guide.
-
-## Licensing
-
-See the [License](LICENSE.md).
+- [Changelog](CHANGELOG.md)
+- [Code of Conduct](docs/CODE_OF_CONDUCT.md).
+- [Contributing](docs/CONTRIBUTING.md) guide.
+- [License](LICENSE.md).
