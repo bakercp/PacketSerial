@@ -8,6 +8,7 @@
 - [ISSUE_TEMPLATE.md](https://help.github.com/en/articles/about-issue-and-pull-request-templates)
 - [PULL_REQUEST_TEMPLATE.md](https://help.github.com/en/articles/about-issue-and-pull-request-templates)
 - [FUNDING.yml](https://help.github.com/en/articles/displaying-a-sponsor-button-in-your-repository)
+  - Enable in settings.
 - [SECURITY.md](https://help.github.com/en/articles/adding-a-security-policy-to-your-repository)
 - [SUPPORT.md](https://help.github.com/en/articles/adding-support-resources-to-your-project)
 - [LICENSE.md](https://help.github.com/en/articles/adding-a-license-to-a-repository)

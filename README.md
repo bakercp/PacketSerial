@@ -25,7 +25,7 @@ Continuous integration tests are carried out on a variety of common Arduino plat
 
 ### Requrements
 
-- [Arduino IDE](https://www.arduino.cc/en/main/software) 1.5+
+- [Arduino IDE](https://www.arduino.cc/en/main/software) (version 1.5+)
 
 ### Other Platforms
 
