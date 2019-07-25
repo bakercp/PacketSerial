@@ -21,6 +21,12 @@ If you're looking for help, read the [support](docs/SUPPORT.md) page.
 
 [![Build Status](https://travis-ci.org/bakercp/PacketSerial.svg?branch=master)](https://travis-ci.org/bakercp/PacketSerial)
 
+Continuous integration tests are carried out on a variety of common Arduino platforms. See [this script](https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh) for a list.
+
+### Requrements
+
+- [Arduino IDE](https://www.arduino.cc/en/main/software) 1.5+
+
 ### Other Platforms
 
 This project has been used successfully with [openFrameworks](https://openframeworks.cc/) using the [ofxSerial](https://github.com/bakercp/ofxSerial) addon. In particular, see the `ofx::IO::PacketSerial` object. Additionally this project has been used with Python using the [PySerial](https://pythonhosted.org/pyserial/index.html) package. In particular, check out the [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10)) and [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1) packages.
