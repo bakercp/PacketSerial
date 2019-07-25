@@ -13,7 +13,7 @@ If you're asking _Why do I need this?_, read the [background introduction](docs/
 
 ## Support
 
-See the [support](docs/SUPPORT.md) page.
+If you're looking for help, read the [support](docs/SUPPORT.md) page.
 
 ## Compatibility
 
@@ -23,20 +23,20 @@ See the [support](docs/SUPPORT.md) page.
 
 ### Other Platforms
 
-- openFrameworks (C/C++ on macOS, Windows, Linux, Android, etc).
-  - [ofxSerial](https://github.com/bakercp/ofxSerial) addon.
-    - See the `ofx::IO::PacketSerial` object which is directly compatible with this library.
+This project has been used successfully with [openFrameworks](https://openframeworks.cc/) using the [ofxSerial](https://github.com/bakercp/ofxSerial) addon. In particular, see the `ofx::IO::PacketSerial` object. Additionally this project has been used with Python using the [PySerial](https://pythonhosted.org/pyserial/index.html) package. In particular, check out the [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10)) and [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1) packages.
 
-- Python
-  - [PySerial](https://pythonhosted.org/pyserial/index.html)
-    - [COBS](https://pythonhosted.org/cobs/) (see [this discussion](https://github.com/bakercp/PacketSerial/issues/10) for more).
-    - [SLIP](https://pypi.python.org/pypi/sliplib/0.0.1)
+Ultimately, any library that correctly implements a COBS or SLIP encoding scheme should be compatible with this project.
 
-_Any library that correctly implements a COBS or SLIP encoding scheme should be compatible._
+## Project Management
 
-## Project Information
+### Contributing
 
-- [Changelog](CHANGELOG.md)
-- [Code of Conduct](docs/CODE_OF_CONDUCT.md).
-- [Contributing](docs/CONTRIBUTING.md) guide.
-- [License](LICENSE.md).
+If you'd like to contribute to this project, please check out the [Code of Conduct](docs/CODE_OF_CONDUCT.md) and [contributing](docs/CONTRIBUTING.md) guide.
+
+### Versioning
+
+This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html). You can check out recent changes in [changelog](CHANGELOG.md)
+
+## Licensing
+
+This project is The [MIT](LICENSE.md).
