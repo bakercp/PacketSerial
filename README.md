@@ -27,6 +27,10 @@ This project has been used successfully with [openFrameworks](https://openframew
 
 Ultimately, any library that correctly implements a COBS or SLIP encoding scheme should be compatible with this project.
 
+## Licensing
+
+This project is licensed under the [MIT License](LICENSE.md).
+
 ## Project Management
 
 ### Contributing
@@ -36,7 +40,3 @@ If you'd like to contribute to this project, please check out the [Code of Condu
 ### Versioning
 
 This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html). You can check out recent changes in [changelog](CHANGELOG.md)
-
-## Licensing
-
-This project is licensed under the [MIT License](LICENSE.md).
