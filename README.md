@@ -19,7 +19,7 @@ See the [getting started](docs/GETTING_STARTED.md) page.
 
 ### Examples
 
-A lot of help can be found in the examples. Find them [here](examples).
+Find the examples [here](examples).
 
 ### API
 
