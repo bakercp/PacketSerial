@@ -39,4 +39,4 @@ This project uses [Semantic Versioning](http://semver.org/spec/v2.0.0.html). You
 
 ## Licensing
 
-This project is licensed under the [MIT](LICENSE.md) license.
+This project is licensed under the [MIT License](LICENSE.md).
