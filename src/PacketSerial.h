@@ -171,6 +171,30 @@ public:
         _stream = stream;
     }
 
+    /// \brief Get a pointer to the current stream.
+    /// \warning Reading from or writing to the stream managed by PacketSerial_
+    ///          may break the packet-serial protocol if not done so with care. 
+    ///          Access to the stream is allowed because PacketSerial_ never
+    ///          takes ownership of the stream and thus does not have exclusive
+    ///          access to the stream anyway.
+    /// \returns a non-const pointer to the stream, or nullptr if unset.
+    Stream* getStream()
+    {
+        return _stream;
+    }
+
+    /// \brief Get a pointer to the current stream.
+    /// \warning Reading from or writing to the stream managed by PacketSerial_
+    ///          may break the packet-serial protocol if not done so with care. 
+    ///          Access to the stream is allowed because PacketSerial_ never
+    ///          takes ownership of the stream and thus does not have exclusive
+    ///          access to the stream anyway.
+    /// \returns a const pointer to the stream, or nullptr if unset.
+    const Stream* getStream() const
+    {
+        return _stream;
+    }
+
     /// \brief The update function services the serial connection.
     ///
     /// This must be called often, ideally once per `loop()`, e.g.:

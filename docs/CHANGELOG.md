@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Updated README.
+- None
 
 ### Removed
 
@@ -26,6 +26,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Security
 
 - None
+
+## [1.4.0] 2019-07-26
+
+### Added
+
+- Added `const Stream* getStream() const` and `Stream* getStream()` methods. Thanks @orgicus.
+
+### Changed
+
+- Updated README.
 
 ## [1.3.0] 2019-07-25
 
