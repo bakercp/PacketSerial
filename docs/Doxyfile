@@ -13,5 +13,6 @@ EXCLUDE                = ./html
 EXCLUDE_PATTERNS       = *.bak
 USE_MDFILE_AS_MAINPAGE = README.md
 HTML_OUTPUT            = html
+GENERATE_TREEVIEW      = YES
 GENERATE_TAGFILE       = PacketSerial.xml
 GENERATE_LATEX         = NO
