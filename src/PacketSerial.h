@@ -298,7 +298,7 @@ public:
     /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunction A pointer to the packet handler function.
-    void setPacketHandler(PacketHandlerFunction onPacketFunction)
+    void setPacketHandler(std::function<PacketHandlerFunction> onPacketFunction)
     {
         _onPacketFunction = onPacketFunction;
         _onPacketFunctionWithSender = nullptr;
@@ -336,7 +336,7 @@ public:
     /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunctionWithSender A pointer to the packet handler function.
-    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender)
+    void setPacketHandler(std::function<PacketHandlerFunctionWithSender> onPacketFunctionWithSender)
     {
         _onPacketFunction = nullptr;
         _onPacketFunctionWithSender = onPacketFunctionWithSender;
