@@ -49,12 +49,25 @@ public:
     /// is the number of bytes in the incoming buffer.
     typedef void (*PacketHandlerFunctionWithSender)(const void* sender, const uint8_t* buffer, size_t size);
 
+    /// \brief A typedef describing the packet handler method.
+    ///
+    /// The packet handler method usually has the form:
+    ///
+    ///     void onPacketReceived(const uint8_t* buffer, size_t size, void* context);
+    ///
+    /// where context is a user data pointer passed in \ref setPacketHandler(PacketHandlerFunctionWithContext)
+    /// where buffer is a pointer to the incoming buffer array, and size is the
+    /// number of bytes in the incoming buffer.
+    typedef void (*PacketHandlerFunctionWithContext)(const uint8_t* buffer, size_t size, void* context);
+
     /// \brief Construct a default PacketSerial_ device.
     PacketSerial_():
         _receiveBufferIndex(0),
         _stream(nullptr),
         _onPacketFunction(nullptr),
-        _onPacketFunctionWithSender(nullptr)
+        _onPacketFunctionWithSender(nullptr),
+        _onPacketFunctionWithContext(nullptr),
+        _onPacketFunctionContext(nullptr)
     {
     }
 
@@ -216,7 +229,7 @@ public:
 
             if (data == PacketMarker)
             {
-                if (_onPacketFunction || _onPacketFunctionWithSender)
+                if (_onPacketFunction || _onPacketFunctionWithSender || _onPacketFunctionWithContext)
                 {
                     uint8_t _decodeBuffer[_receiveBufferIndex];
 
@@ -231,6 +244,10 @@ public:
                     else if (_onPacketFunctionWithSender)
                     {
                         _onPacketFunctionWithSender(this, _decodeBuffer, numDecoded);
+                    }
+                    else if (_onPacketFunctionWithContext)
+                    {
+                        _onPacketFunctionWithContext(_decodeBuffer, numDecoded, _onPacketFunctionContext);
                     }
                 }
 
@@ -302,6 +319,8 @@ public:
     {
         _onPacketFunction = onPacketFunction;
         _onPacketFunctionWithSender = nullptr;
+        _onPacketFunctionWithContext = nullptr;
+        _onPacketFunctionContext = nullptr;
     }
 
     /// \brief Set the function that will receive decoded packets.
@@ -340,6 +359,42 @@ public:
     {
         _onPacketFunction = nullptr;
         _onPacketFunctionWithSender = onPacketFunctionWithSender;
+        _onPacketFunctionWithContext = nullptr;
+        _onPacketFunctionContext = nullptr;
+    }
+
+    /// \brief Set the function that will receive decoded packets.
+    ///
+    /// This function will be called when data is read from the serial stream
+    /// connection and a packet is decoded. The decoded packet will be passed
+    /// to the packet handler. The packet handler must have the form:
+    ///
+    /// The packet handler method usually has the form:
+    ///
+    ///     void onPacketReceived(const uint8_t* buffer, size_t size, void* context);
+    ///
+    /// To get the context, reinterpret cast the pointer to a decltype(context) and use it.
+    ///
+    /// The packet handler would then be registered like this:
+    ///
+    ///     MySerialProcessor myProcessor;
+    ///     myPacketSerial.setPacketHandler(
+    ///         [](const uint8_t* buffer, size_t size, void* context)
+    ///         {
+    ///             auto myProcessor = reinterpret_cast<MySerialProcessor*>(context);
+    ///             myProcessor->onPacketReceived(buffer, size);
+    ///         },
+    ///         &myProcessor);
+    ///
+    /// Setting a packet handler will remove all other packet handlers.
+    ///
+    /// \param onPacketFunctionWithSender A pointer to the packet handler function.
+    void setPacketHandler(PacketHandlerFunctionWithContext onPacketFunctionWithContext, void* context)
+    {
+        _onPacketFunction = nullptr;
+        _onPacketFunctionWithSender = nullptr;
+        _onPacketFunctionWithContext = onPacketFunctionWithContext;
+        _onPacketFunctionContext = context;
     }
 
     /// \brief Check to see if the receive buffer overflowed.
@@ -384,6 +439,8 @@ private:
 
     PacketHandlerFunction _onPacketFunction = nullptr;
     PacketHandlerFunctionWithSender _onPacketFunctionWithSender = nullptr;
+    PacketHandlerFunctionWithContext _onPacketFunctionWithContext = nullptr;
+    void* _onPacketFunctionContext = nullptr;
 };
 
 
