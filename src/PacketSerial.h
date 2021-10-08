@@ -54,7 +54,8 @@ public:
         _receiveBufferIndex(0),
         _stream(nullptr),
         _onPacketFunction(nullptr),
-        _onPacketFunctionWithSender(nullptr)
+        _onPacketFunctionWithSender(nullptr),
+        _senderPtr(nullptr)
     {
     }
 
@@ -224,18 +225,23 @@ public:
                                                             _receiveBufferIndex,
                                                             _decodeBuffer);
 
+                    // clear the index here so that the callback function can call update() if needed and receive more data
+                    _receiveBufferIndex = 0;
+                    _recieveBufferOverflow = false;
+
                     if (_onPacketFunction)
                     {
                         _onPacketFunction(_decodeBuffer, numDecoded);
                     }
                     else if (_onPacketFunctionWithSender)
                     {
-                        _onPacketFunctionWithSender(this, _decodeBuffer, numDecoded);
+                        _onPacketFunctionWithSender(_senderPtr, _decodeBuffer, numDecoded);
                     }
-                }
 
-                _receiveBufferIndex = 0;
-                _recieveBufferOverflow = false;
+                } else {
+                    _receiveBufferIndex = 0;
+                    _recieveBufferOverflow = false;
+                }
             }
             else
             {
@@ -302,6 +308,7 @@ public:
     {
         _onPacketFunction = onPacketFunction;
         _onPacketFunctionWithSender = nullptr;
+        _senderPtr = nullptr;
     }
 
     /// \brief Set the function that will receive decoded packets.
@@ -336,10 +343,12 @@ public:
     /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunctionWithSender A pointer to the packet handler function.
-    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender)
+    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender, void * senderPtr = NULL)
     {
         _onPacketFunction = nullptr;
         _onPacketFunctionWithSender = onPacketFunctionWithSender;
+        _senderPtr = senderPtr;
+        if(!senderPtr) _senderPtr = this;
     }
 
     /// \brief Check to see if the receive buffer overflowed.
@@ -384,6 +393,7 @@ private:
 
     PacketHandlerFunction _onPacketFunction = nullptr;
     PacketHandlerFunctionWithSender _onPacketFunctionWithSender = nullptr;
+    void* _senderPtr = nullptr;
 };
 
 
