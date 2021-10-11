@@ -340,14 +340,41 @@ public:
     ///
     ///     myPacketSerial.setPacketHandler(&onPacketReceived);
     ///
+    /// You can also register an arbitrary void* pointer to be passed to your packet handler method.
+    /// This is most useful when PacketSerial is used inside a class, to pass a pointer to
+    /// the containing class:
+    ///
+    ///     class EchoClass {
+    ///       public:
+    ///         void begin(unsigned long speed) {
+    ///           myPacketSerial.setPacketHandler(&onPacketReceived, this);
+    ///           myPacketSerial.begin(speed);
+    ///         }
+    ///     
+    ///         // C-style callbacks can't use non-static methods,
+    ///         // so we use a static method that receives "this" as the sender argument:
+    ///         // https://wiki.c2.com/?VirtualStaticIdiom
+    ///         static void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size) {
+    ///           ((EchoClass*)sender)->onPacketReceived(buffer, size);
+    ///         }
+    ///     
+    ///         void onPacketReceived(const uint8_t* buffer, size_t size) {
+    ///             // we can now use myPacketSerial as needed here
+    ///         }
+    ///     
+    ///         PacketSerial myPacketSerial;
+    ///     };
+    ///
     /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunctionWithSender A pointer to the packet handler function.
-    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender, void * senderPtr = NULL)
+    /// \param senderPtr Optional pointer to a void* pointer, use default argument to send a pointer to the sending PacketSerial instance
+    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender, void * senderPtr = nullptr)
     {
         _onPacketFunction = nullptr;
         _onPacketFunctionWithSender = onPacketFunctionWithSender;
         _senderPtr = senderPtr;
+        // for backwards compatibility, the default _senderPtr is "this", but you can't use "this" as a default argument
         if(!senderPtr) _senderPtr = this;
     }
 
