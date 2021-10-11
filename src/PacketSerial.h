@@ -368,7 +368,7 @@ public:
     /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunctionWithSender A pointer to the packet handler function.
-    /// \param senderPtr Optional pointer to a void* pointer, use default argument to send a pointer to the sending PacketSerial instance
+    /// \param senderPtr Optional pointer to a void* pointer, default argument will pass a pointer to the sending PacketSerial instance to the callback
     void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender, void * senderPtr = nullptr)
     {
         _onPacketFunction = nullptr;
