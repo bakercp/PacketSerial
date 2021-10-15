@@ -54,7 +54,8 @@ public:
         _receiveBufferIndex(0),
         _stream(nullptr),
         _onPacketFunction(nullptr),
-        _onPacketFunctionWithSender(nullptr)
+        _onPacketFunctionWithSender(nullptr),
+        _senderPtr(nullptr)
     {
     }
 
@@ -224,18 +225,23 @@ public:
                                                             _receiveBufferIndex,
                                                             _decodeBuffer);
 
+                    // clear the index here so that the callback function can call update() if needed and receive more data
+                    _receiveBufferIndex = 0;
+                    _recieveBufferOverflow = false;
+
                     if (_onPacketFunction)
                     {
                         _onPacketFunction(_decodeBuffer, numDecoded);
                     }
                     else if (_onPacketFunctionWithSender)
                     {
-                        _onPacketFunctionWithSender(this, _decodeBuffer, numDecoded);
+                        _onPacketFunctionWithSender(_senderPtr, _decodeBuffer, numDecoded);
                     }
-                }
 
-                _receiveBufferIndex = 0;
-                _recieveBufferOverflow = false;
+                } else {
+                    _receiveBufferIndex = 0;
+                    _recieveBufferOverflow = false;
+                }
             }
             else
             {
@@ -302,6 +308,7 @@ public:
     {
         _onPacketFunction = onPacketFunction;
         _onPacketFunctionWithSender = nullptr;
+        _senderPtr = nullptr;
     }
 
     /// \brief Set the function that will receive decoded packets.
@@ -333,13 +340,42 @@ public:
     ///
     ///     myPacketSerial.setPacketHandler(&onPacketReceived);
     ///
+    /// You can also register an arbitrary void* pointer to be passed to your packet handler method.
+    /// This is most useful when PacketSerial is used inside a class, to pass a pointer to
+    /// the containing class:
+    ///
+    ///     class EchoClass {
+    ///       public:
+    ///         void begin(unsigned long speed) {
+    ///           myPacketSerial.setPacketHandler(&onPacketReceived, this);
+    ///           myPacketSerial.begin(speed);
+    ///         }
+    ///     
+    ///         // C-style callbacks can't use non-static methods,
+    ///         // so we use a static method that receives "this" as the sender argument:
+    ///         // https://wiki.c2.com/?VirtualStaticIdiom
+    ///         static void onPacketReceived(const void* sender, const uint8_t* buffer, size_t size) {
+    ///           ((EchoClass*)sender)->onPacketReceived(buffer, size);
+    ///         }
+    ///     
+    ///         void onPacketReceived(const uint8_t* buffer, size_t size) {
+    ///             // we can now use myPacketSerial as needed here
+    ///         }
+    ///     
+    ///         PacketSerial myPacketSerial;
+    ///     };
+    ///
     /// Setting a packet handler will remove all other packet handlers.
     ///
     /// \param onPacketFunctionWithSender A pointer to the packet handler function.
-    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender)
+    /// \param senderPtr Optional pointer to a void* pointer, default argument will pass a pointer to the sending PacketSerial instance to the callback
+    void setPacketHandler(PacketHandlerFunctionWithSender onPacketFunctionWithSender, void * senderPtr = nullptr)
     {
         _onPacketFunction = nullptr;
         _onPacketFunctionWithSender = onPacketFunctionWithSender;
+        _senderPtr = senderPtr;
+        // for backwards compatibility, the default _senderPtr is "this", but you can't use "this" as a default argument
+        if(!senderPtr) _senderPtr = this;
     }
 
     /// \brief Check to see if the receive buffer overflowed.
@@ -384,6 +420,7 @@ private:
 
     PacketHandlerFunction _onPacketFunction = nullptr;
     PacketHandlerFunctionWithSender _onPacketFunctionWithSender = nullptr;
+    void* _senderPtr = nullptr;
 };
 
 
