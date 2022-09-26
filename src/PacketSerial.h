@@ -84,13 +84,13 @@ public:
     /// \sa https://www.arduino.cc/en/Serial/Begin
     void begin(unsigned long speed)
     {
-		#if !defined(NO_GLOBAL_SERIAL)
+        #if !defined(NO_GLOBAL_SERIAL)
         Serial.begin(speed);
         #if ARDUINO >= 100 && !defined(CORE_TEENSY)
         while (!Serial) {;}
         #endif
         setStream(&Serial);
-		#endif
+        #endif
     }
 
     /// \brief Deprecated. Use setStream() to configure a non-default port.
