@@ -36,7 +36,7 @@ public:
     ///
     /// where buffer is a pointer to the incoming buffer array, and size is the
     /// number of bytes in the incoming buffer.
-    typedef void (*PacketHandlerFunction)(const uint8_t* buffer, size_t size);
+    using PacketHandlerFunction = void(*)(const uint8_t* buffer, size_t size);
 
     /// \brief A typedef describing the packet handler method.
     ///
@@ -47,7 +47,7 @@ public:
     /// where sender is a pointer to the PacketSerial_ instance that recieved
     /// the buffer,  buffer is a pointer to the incoming buffer array, and size
     /// is the number of bytes in the incoming buffer.
-    typedef void (*PacketHandlerFunctionWithSender)(const void* sender, const uint8_t* buffer, size_t size);
+    using PacketHandlerFunctionWithSender = void(*)(const void* sender, const uint8_t* buffer, size_t size);
 
     /// \brief Construct a default PacketSerial_ device.
     PacketSerial_():
@@ -58,11 +58,8 @@ public:
         _senderPtr(nullptr)
     {
     }
-
     /// \brief Destroy the PacketSerial_ device.
-    ~PacketSerial_()
-    {
-    }
+    ~PacketSerial_() = default;
 
     /// \brief Begin a default serial connection with the given speed.
     ///
@@ -167,7 +164,7 @@ public:
     /// includes some network objects.
     ///
     /// \param stream A pointer to an Arduino `Stream`.
-    void setStream(Stream* stream)
+    void setStream(Stream* stream) noexcept
     {
         _stream = stream;
     }
@@ -179,7 +176,7 @@ public:
     ///          takes ownership of the stream and thus does not have exclusive
     ///          access to the stream anyway.
     /// \returns a non-const pointer to the stream, or nullptr if unset.
-    Stream* getStream()
+    Stream* getStream() noexcept
     {
         return _stream;
     }
@@ -191,7 +188,7 @@ public:
     ///          takes ownership of the stream and thus does not have exclusive
     ///          access to the stream anyway.
     /// \returns a const pointer to the stream, or nullptr if unset.
-    const Stream* getStream() const
+    const Stream* getStream() const noexcept
     {
         return _stream;
     }
@@ -402,14 +399,15 @@ public:
     /// overflow() method is called.
     ///
     /// \returns true if the receive buffer overflowed.
-    bool overflow() const
+    constexpr bool overflow() const noexcept
     {
         return _recieveBufferOverflow;
     }
-
+    PacketSerial_(const PacketSerial_&) = delete;
+    PacketSerial_(PacketSerial_&&) = delete;
+    PacketSerial_& operator = (const PacketSerial_&) = delete;
+    PacketSerial_& operator = (PacketSerial_&&) = delete;
 private:
-    PacketSerial_(const PacketSerial_&);
-    PacketSerial_& operator = (const PacketSerial_&);
 
     bool _recieveBufferOverflow = false;
 
