@@ -50,14 +50,7 @@ public:
     using PacketHandlerFunctionWithSender = void(*)(const void* sender, const uint8_t* buffer, size_t size);
 
     /// \brief Construct a default PacketSerial_ device.
-    PacketSerial_():
-        _receiveBufferIndex(0),
-        _stream(nullptr),
-        _onPacketFunction(nullptr),
-        _onPacketFunctionWithSender(nullptr),
-        _senderPtr(nullptr)
-    {
-    }
+    PacketSerial_() = default;
     /// \brief Destroy the PacketSerial_ device.
     ~PacketSerial_() = default;
 
