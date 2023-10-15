@@ -197,7 +197,7 @@ public:
     ///         myPacketSerial.update();
     ///     }
     ///
-    void update()
+    void update() noexcept
     {
         if (_stream == nullptr) return;
 
@@ -416,10 +416,10 @@ private:
 
 
 /// \brief A typedef for the default COBS PacketSerial class.
-typedef PacketSerial_<COBS> PacketSerial;
+using PacketSerial = PacketSerial_<COBS>;
 
 /// \brief A typedef for a PacketSerial type with COBS encoding.
-typedef PacketSerial_<COBS> COBSPacketSerial;
+using COBSPacketSerial = PacketSerial_<COBS>;
 
 /// \brief A typedef for a PacketSerial type with SLIP encoding.
-typedef PacketSerial_<SLIP, SLIP::END> SLIPPacketSerial;
+using SLIPPacketSerial = PacketSerial_<SLIP, SLIP::END>;
